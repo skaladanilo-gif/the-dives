@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Dives: resumo, quiz, flashcards 3D e treinos de Redação Publicitária para estudantes da UVV.">
+<meta property="og:title" content="The Dives · Redação Publicitária UVV">
+<meta property="og:description" content="Resumo, quiz, flashcards 3D e treinos para estudar Redação Publicitária.">
+<meta name="theme-color" content="#311758">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2236%22%20height%3D%2230%22%20rx%3D%2210%22%20fill%3D%22%23E3B61F%22%20stroke%3D%22%23311758%22%20stroke-width%3D%223%22/%3E%3Cpath%20d%3D%22M12%2032%20L10%2039%20L19%2032%20Z%22%20fill%3D%22%23E3B61F%22%20stroke%3D%22%23311758%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22/%3E%3Ctext%20x%3D%2220%22%20y%3D%2227%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2C%20serif%22%20font-weight%3D%22700%22%20font-size%3D%2226%22%20fill%3D%22%23311758%22%3E%E2%80%9C%3C/text%3E%3C/svg%3E">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>The Dives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout: app de estudo em abas — cabeçalho fixo com selo UVV, hero "outdoor", e modos (Resumo, Quiz, Flashcards, Treinos, Prova) como telas. Visual de adesivos: bordas grossas + sombra deslocada em roxo UVV, dourado como destaque. */
+:root{
+  --bg:#F6F2FC; --surface:#FFFFFF; --surface-2:#EEE6F9; --ink:#1E0F35; --muted:#5F5478; --line:#D9CDEB;
+  --grape:#311758; --grape-soft:#4A2A80; --accent-text:#311758; --on-grape:#FFFFFF;
+  --gold:#E3B61F; --gold-soft:#FBEFC4; --on-gold:#2A1C00;
+  --ok:#11815A; --ok-bg:#DBF4E8; --bad:#BE2F4A; --bad-bg:#FBE2E7;
+  --shadow:#311758; --chip:#FFFFFF;
+  --f-display:"Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --f-body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-hand:"Caveat", "Comic Sans MS", cursive;
+  --r:14px; --r-lg:22px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#120922; --surface:#1D1132; --surface-2:#291945; --ink:#F3EDFC; --muted:#B4A7CD; --line:#3B2B5A;
+  --grape:#432483; --grape-soft:#5B37A3; --accent-text:#CDB8F6; --on-grape:#FFFFFF;
+  --gold:#F0C83A; --gold-soft:#3A2F10; --on-gold:#221700;
+  --ok:#55D6A0; --ok-bg:#103629; --bad:#FF8199; --bad-bg:#43162A;
+  --shadow:#05020B; --chip:#FFFFFF; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#120922; --surface:#1D1132; --surface-2:#291945; --ink:#F3EDFC; --muted:#B4A7CD; --line:#3B2B5A;
+  --grape:#432483; --grape-soft:#5B37A3; --accent-text:#CDB8F6; --on-grape:#FFFFFF;
+  --gold:#F0C83A; --gold-soft:#3A2F10; --on-gold:#221700;
+  --ok:#55D6A0; --ok-bg:#103629; --bad:#FF8199; --bad-bg:#43162A;
+  --shadow:#05020B; --chip:#FFFFFF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--f-display); line-height:1.08; margin:0; text-wrap:balance; letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit; color:inherit}
+a{color:var(--accent-text)}
+:focus-visible{outline:3px solid var(--gold); outline-offset:3px; border-radius:8px}
+.wrap{max-width:1120px; margin:0 auto; padding-inline:16px}
+@media (min-width:700px){ .wrap{padding-inline:28px} }
+
+/* ---------- Header ---------- */
+.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:30; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); border-bottom:2px solid var(--line)}
+.top .wrap{display:flex; align-items:center; gap:14px; padding-block:10px; flex-wrap:wrap}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); margin-right:auto; background:none; border:0; padding:0; cursor:pointer}
+.brand-mark{width:38px; height:38px; flex:none}
+.brand-name{font-family:var(--f-display); font-weight:800; font-size:24px; letter-spacing:-.03em}
+.brand-name em{font-style:normal; color:var(--gold); -webkit-text-stroke:0}
+.uvv-chip{background:var(--chip); border-radius:999px; padding:5px 12px; display:flex; align-items:center; border:2px solid var(--line)}
+.uvv-chip img{height:28px; width:auto; display:block}
+.nav{display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; width:100%; padding-bottom:2px}
+.nav::-webkit-scrollbar{display:none}
+@media (min-width:980px){ .nav{width:auto; order:0} .top .wrap{flex-wrap:nowrap} }
+.nav button{border:2px solid transparent; background:none; padding:7px 14px; border-radius:999px; font-weight:600; font-size:15px; cursor:pointer; white-space:nowrap; color:var(--muted)}
+.nav button:hover{color:var(--ink); background:var(--surface-2)}
+.nav button[aria-current="page"]{background:var(--grape); color:var(--on-grape)}
+
+/* ---------- Generic ---------- */
+.view{padding-block:32px 72px}
+.eyebrow{font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-text)}
+.lede{font-size:18px; color:var(--muted); max-width:62ch}
+.hand{font-family:var(--f-hand); font-weight:700}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:2px solid var(--ink); background:var(--surface); color:var(--ink); padding:11px 20px; border-radius:999px; font-weight:700; font-size:16px; cursor:pointer; box-shadow:3px 3px 0 var(--shadow); transition:transform .12s, box-shadow .12s; text-decoration:none}
+.btn:hover{transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--shadow)}
+.btn:active{transform:translate(2px,2px); box-shadow:1px 1px 0 var(--shadow)}
+.btn.primary{background:var(--gold); color:var(--on-gold); border-color:var(--on-gold)}
+.btn.grape{background:var(--grape); color:var(--on-grape); border-color:var(--grape)}
+.btn.ghost{box-shadow:none; border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink); box-shadow:none; transform:none}
+.btn:disabled{opacity:.45; cursor:not-allowed; transform:none; box-shadow:none}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{border:2px solid var(--line); background:var(--surface); padding:6px 14px; border-radius:999px; font-weight:600; font-size:14px; cursor:pointer; color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.sticker{display:inline-block; background:var(--gold); color:var(--on-gold); font-weight:800; font-family:var(--f-display); padding:4px 12px; border-radius:8px; transform:rotate(-3deg); border:2px solid var(--on-gold); font-size:14px}
+.panel{background:var(--surface); border:2px solid var(--ink); border-radius:var(--r-lg); box-shadow:5px 5px 0 var(--shadow)}
+
+/* ---------- Home ---------- */
+.hero{display:grid; gap:36px; align-items:center; padding-block:12px 8px}
+@media (min-width:900px){ .hero{grid-template-columns:1.05fr .95fr} }
+.hero h1{font-size:clamp(46px, 8vw, 92px); font-weight:800; letter-spacing:-.045em; line-height:.95}
+.hero h1 .gold{color:var(--gold); position:relative; white-space:nowrap}
+.hero h1 .scribble{display:block; font-family:var(--f-hand); font-weight:700; font-size:.36em; letter-spacing:0; color:var(--accent-text); transform:rotate(-2deg); margin-top:10px}
+.hero-copy{display:grid; gap:20px; min-width:0}
+.hero-actions{display:flex; flex-wrap:wrap; gap:12px}
+.billboard{position:relative; min-width:0}
+.bb-board{background:var(--grape); color:var(--on-grape); border:3px solid var(--ink); border-radius:18px; padding:28px 26px 24px; box-shadow:8px 8px 0 var(--gold); min-height:250px; display:grid; align-content:space-between; gap:18px; position:relative; overflow:hidden}
+.bb-board::after{content:""; position:absolute; inset:0; background:repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), rgba(255,255,255,.07) calc(25% - 1px) 25%); pointer-events:none}
+.bb-tag{display:flex; justify-content:space-between; gap:10px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; opacity:.8; font-weight:700}
+.bb-head{font-family:var(--f-display); font-weight:800; font-size:clamp(28px, 4.2vw, 44px); line-height:1.02; letter-spacing:-.03em; min-height:2.1em; transition:opacity .35s}
+.bb-meta{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.bb-pill{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); padding:3px 10px; border-radius:999px; font-size:13px; font-weight:600; font-variant-numeric:tabular-nums}
+.bb-pill.good{background:var(--gold); color:var(--on-gold); border-color:var(--gold)}
+.bb-legs{display:flex; justify-content:space-around; height:44px}
+.bb-legs span{width:14px; background:var(--ink); border-radius:0 0 4px 4px}
+.bb-note{position:absolute; right:-8px; bottom:-14px; transform:rotate(4deg); background:var(--surface); color:var(--ink); border:2px solid var(--ink); padding:6px 12px; border-radius:10px; font-family:var(--f-hand); font-size:22px; line-height:1.1; max-width:210px; box-shadow:3px 3px 0 var(--shadow)}
+@media (max-width:520px){ .bb-note{position:static; transform:rotate(-1deg); margin-top:12px; max-width:none; display:inline-block} }
+
+.modes{display:grid; gap:18px; margin-top:56px}
+@media (min-width:640px){ .modes{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:980px){ .modes{grid-template-columns:repeat(3,1fr)} }
+.mode{text-align:left; cursor:pointer; padding:22px; display:grid; gap:10px; align-content:start; transition:transform .15s, box-shadow .15s; min-width:0}
+.mode:hover{transform:translate(-2px,-2px) rotate(-.4deg); box-shadow:8px 8px 0 var(--shadow)}
+.mode .ico{width:46px; height:46px; border-radius:12px; display:grid; place-items:center; background:var(--gold); border:2px solid var(--on-gold)}
+.mode .ico svg{width:26px; height:26px}
+.mode h3{font-size:24px}
+.mode p{color:var(--muted)}
+.mode .count{font-size:13px; font-weight:700; color:var(--accent-text); letter-spacing:.06em; text-transform:uppercase}
+.mode.feature{background:var(--grape); color:var(--on-grape); border-color:var(--grape)}
+.mode.feature p{color:rgba(255,255,255,.82)}
+.mode.feature .count{color:var(--gold)}
+.strip{margin-top:56px; display:grid; gap:14px}
+.strip h2{font-size:28px}
+.marquee{display:flex; flex-wrap:wrap; gap:10px}
+.marquee span{background:var(--surface); border:2px dashed var(--line); padding:6px 14px; border-radius:999px; font-weight:600; font-size:14px}
+
+/* ---------- Resumo ---------- */
+.res-layout{display:grid; gap:28px; margin-top:28px}
+@media (min-width:980px){ .res-layout{grid-template-columns:240px 1fr; align-items:start} }
+.toc{display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin}
+@media (min-width:980px){ .toc{position:sticky; top:calc(env(safe-area-inset-top,0px) + 86px); flex-direction:column; overflow:visible; gap:2px; max-height:calc(100vh - 110px); overflow-y:auto} }
+.toc a{white-space:nowrap; text-decoration:none; color:var(--muted); font-weight:600; font-size:14px; padding:6px 12px; border-radius:10px; border:2px solid var(--line); background:var(--surface)}
+@media (min-width:980px){ .toc a{border:0; background:none; white-space:normal; padding:5px 10px} .toc a:hover{background:var(--surface-2); color:var(--ink)} }
+.toc a .n{font-variant-numeric:tabular-nums; color:var(--accent-text); margin-right:6px; font-weight:800}
+.mods{display:grid; gap:26px; min-width:0}
+.mod{padding:26px; scroll-margin-top:96px; min-width:0}
+.mod-head{display:flex; gap:14px; align-items:baseline; flex-wrap:wrap; margin-bottom:14px}
+.mod-num{font-family:var(--f-display); font-weight:800; font-size:15px; background:var(--gold); color:var(--on-gold); padding:2px 10px; border-radius:8px; border:2px solid var(--on-gold); font-variant-numeric:tabular-nums}
+.mod h2{font-size:clamp(24px, 3vw, 32px)}
+.mod-src{font-size:13px; color:var(--muted); width:100%}
+.mod > p, .mod .body p{max-width:68ch}
+.mod .body{display:grid; gap:14px}
+.grid2{display:grid; gap:12px}
+@media (min-width:700px){ .grid2{grid-template-columns:repeat(2,1fr)} }
+.grid3{display:grid; gap:12px}
+@media (min-width:700px){ .grid3{grid-template-columns:repeat(3,1fr)} }
+.term{background:var(--surface-2); border-radius:var(--r); padding:14px 16px; min-width:0}
+.term > b{display:block; font-family:var(--f-display); font-size:18px; margin-bottom:4px; color:var(--accent-text)}
+.term p{font-size:15px}
+.term .ex{display:block; margin-top:8px; font-size:14px; color:var(--muted); font-style:italic}
+.steps{display:grid; gap:10px; counter-reset:s; padding:0; margin:0; list-style:none}
+.steps li{counter-increment:s; display:grid; grid-template-columns:40px 1fr; gap:12px; align-items:start; background:var(--surface-2); border-radius:var(--r); padding:12px 14px}
+.steps li::before{content:counter(s); width:34px; height:34px; border-radius:50%; background:var(--grape); color:var(--on-grape); display:grid; place-items:center; font-family:var(--f-display); font-weight:800}
+.steps li b{font-family:var(--f-display); font-size:18px}
+.flow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-weight:700}
+.flow span{background:var(--grape); color:var(--on-grape); padding:6px 12px; border-radius:10px}
+.flow i{font-style:normal; color:var(--muted)}
+.note{background:var(--gold-soft); border:2px solid var(--gold); border-radius:var(--r); padding:12px 16px; transform:rotate(-.5deg)}
+.note .hand{font-size:24px; line-height:1.1; display:block; color:var(--ink)}
+.note p{font-size:15px}
+ul.clean{margin:0; padding-left:20px; display:grid; gap:6px}
+.tbl-wrap{overflow-x:auto; border:2px solid var(--line); border-radius:var(--r)}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:15px}
+th,td{padding:10px 14px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line)}
+th{background:var(--surface-2); font-family:var(--f-display); font-size:16px}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700; color:var(--accent-text)}
+.pc{display:grid; gap:12px}
+@media (min-width:700px){ .pc{grid-template-columns:1fr 1fr} }
+.pc > div{border-radius:var(--r); padding:14px 16px}
+.pc .pro{background:var(--ok-bg)} .pc .con{background:var(--bad-bg)}
+.pc h4{font-size:16px; margin-bottom:6px}
+.pc .pro h4{color:var(--ok)} .pc .con h4{color:var(--bad)}
+.quote{font-family:var(--f-display); font-size:22px; font-weight:700; border-left:5px solid var(--gold); padding-left:16px; max-width:56ch}
+.quote small{display:block; font-family:var(--f-body); font-size:14px; color:var(--muted); font-weight:500; margin-top:6px}
+.mod-foot{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; padding-top:16px; border-top:2px dashed var(--line)}
+.mod-foot .btn{padding:8px 16px; font-size:14px}
+
+/* ---------- Quiz ---------- */
+.quiz-shell{max-width:820px; margin:28px auto 0; padding:26px; display:grid; gap:20px}
+.setup-group{display:grid; gap:10px}
+.setup-group h3{font-size:18px}
+.q-top{display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; font-weight:700; font-size:14px; color:var(--muted)}
+.q-top .topic{background:var(--surface-2); padding:4px 12px; border-radius:999px; color:var(--accent-text)}
+.bar{height:10px; background:var(--surface-2); border-radius:999px; overflow:hidden; border:1px solid var(--line)}
+.bar i{display:block; height:100%; width:0; background:var(--gold); transition:width .35s}
+.q-text{font-family:var(--f-display); font-size:clamp(21px, 2.8vw, 28px); font-weight:700; line-height:1.2}
+.opts{display:grid; gap:10px}
+.opt{display:grid; grid-template-columns:36px 1fr; gap:12px; align-items:center; text-align:left; background:var(--surface); border:2px solid var(--line); border-radius:var(--r); padding:12px 14px; cursor:pointer; font-size:16px; transition:border-color .15s, background .15s, transform .1s}
+.opt:hover:not(:disabled){border-color:var(--ink); transform:translateX(3px)}
+.opt .k{width:32px; height:32px; border-radius:9px; display:grid; place-items:center; background:var(--surface-2); font-weight:800; font-family:var(--f-display)}
+.opt.correct{border-color:var(--ok); background:var(--ok-bg)}
+.opt.correct .k{background:var(--ok); color:var(--surface)}
+.opt.wrong{border-color:var(--bad); background:var(--bad-bg)}
+.opt.wrong .k{background:var(--bad); color:var(--surface)}
+.opt:disabled{cursor:default}
+.feedback{border-radius:var(--r); padding:14px 16px; display:grid; gap:4px}
+.feedback.ok{background:var(--ok-bg)} .feedback.no{background:var(--bad-bg)}
+.feedback b{font-family:var(--f-display); font-size:18px}
+.feedback.ok b{color:var(--ok)} .feedback.no b{color:var(--bad)}
+.q-actions{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center}
+.kbd-hint{font-size:13px; color:var(--muted)}
+.score-big{font-family:var(--f-display); font-weight:800; font-size:clamp(64px, 12vw, 110px); line-height:.9; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
+.score-big small{font-size:.35em; color:var(--muted)}
+.review{display:grid; gap:10px}
+.review-item{background:var(--surface-2); border-radius:var(--r); padding:12px 14px; font-size:15px}
+.review-item b{display:block; margin-bottom:4px}
+.review-item .ans{color:var(--ok); font-weight:700}
+
+/* ---------- Flashcards ---------- */
+.fc-shell{max-width:760px; margin:28px auto 0; display:grid; gap:20px}
+.fc-stage{perspective:1400px; min-width:0}
+.fc{position:relative; width:100%; aspect-ratio:16/10; max-width:100%; cursor:pointer; border:0; background:none; padding:0; display:block}
+@media (max-width:560px){ .fc{aspect-ratio:4/5} }
+.fc-inner{position:absolute; inset:0; transform-style:preserve-3d; transition:transform .7s cubic-bezier(.2,.8,.2,1); transform:rotateX(var(--rx,0deg)) rotateY(calc(var(--flip,0deg) + var(--ry,0deg)))}
+.fc.flipped .fc-inner{--flip:180deg}
+.fc-face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:24px; border:3px solid var(--ink); display:grid; align-content:space-between; padding:26px; text-align:left; overflow:hidden}
+.fc-front{background:var(--gold); color:var(--on-gold); box-shadow:8px 8px 0 var(--shadow)}
+.fc-back{background:var(--grape); color:var(--on-grape); transform:rotateY(180deg); box-shadow:8px 8px 0 var(--gold)}
+.fc-label{display:flex; justify-content:space-between; gap:10px; font-size:13px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; opacity:.8}
+.fc-q{font-family:var(--f-display); font-weight:800; font-size:clamp(24px, 4vw, 40px); line-height:1.05; letter-spacing:-.02em}
+.fc-a{font-size:clamp(16px, 2.1vw, 20px); line-height:1.45; overflow-y:auto; max-height:100%}
+.fc-hint{font-family:var(--f-hand); font-size:22px}
+.fc-controls{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center}
+.fc-counter{font-weight:800; font-variant-numeric:tabular-nums; min-width:90px; text-align:center}
+.fc-known{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
+.btn.ok{background:var(--ok-bg); border-color:var(--ok); color:var(--ok)}
+.btn.no{background:var(--bad-bg); border-color:var(--bad); color:var(--bad)}
+.fc-stats{display:flex; justify-content:center; gap:18px; font-size:14px; font-weight:700; color:var(--muted); flex-wrap:wrap}
+.fc-stats b{color:var(--ink)}
+
+/* ---------- Treinos ---------- */
+.train-grid{display:grid; gap:26px; margin-top:28px}
+@media (min-width:980px){ .train-grid{grid-template-columns:1.15fr .85fr; align-items:start} }
+.train{padding:24px; display:grid; gap:16px; min-width:0}
+.train h2{font-size:28px}
+.pieces{display:grid; gap:10px}
+.piece{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start; text-align:left; background:var(--surface-2); border:2px solid transparent; border-radius:var(--r); padding:12px 14px; cursor:pointer; font-size:15px; line-height:1.5}
+.piece:hover{border-color:var(--line)}
+.piece .slot{min-width:104px; text-align:center; border-radius:8px; padding:3px 8px; font-size:12px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; background:var(--surface); border:2px dashed var(--line); color:var(--muted)}
+.piece.set .slot{background:var(--grape); color:var(--on-grape); border:2px solid var(--grape)}
+.piece.right{border-color:var(--ok); background:var(--ok-bg)}
+.piece.miss{border-color:var(--bad); background:var(--bad-bg)}
+.piece .fix{display:block; font-size:13px; font-weight:700; color:var(--bad); margin-top:4px}
+@media (max-width:520px){ .piece{grid-template-columns:1fr} .piece .slot{justify-self:start} }
+.ad-title{font-family:var(--f-display); font-size:22px; font-weight:800}
+.ad-brand{font-size:13px; color:var(--muted); font-weight:700; letter-spacing:.06em; text-transform:uppercase}
+.result-line{font-weight:700}
+.lab-input{width:100%; min-height:110px; resize:vertical; border:2px solid var(--line); border-radius:var(--r); background:var(--surface); color:var(--ink); font:600 22px/1.25 var(--f-display); padding:14px}
+.lab-input:focus{outline:none; border-color:var(--grape-soft)}
+.meter{display:grid; gap:6px}
+.meter-track{position:relative; height:16px; border-radius:999px; background:linear-gradient(90deg, var(--ok-bg) 0 40%, var(--gold-soft) 40% 65%, var(--bad-bg) 65% 100%); border:1px solid var(--line)}
+.meter-dot{position:absolute; top:50%; width:22px; height:22px; border-radius:50%; background:var(--ink); border:3px solid var(--surface); transform:translate(-50%,-50%); transition:left .25s}
+.meter-scale{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums}
+.lab-stats{display:flex; gap:12px; flex-wrap:wrap}
+.stat{background:var(--surface-2); border-radius:var(--r); padding:10px 14px; min-width:110px}
+.stat b{display:block; font-family:var(--f-display); font-size:30px; font-variant-numeric:tabular-nums; line-height:1}
+.stat span{font-size:13px; color:var(--muted); font-weight:600}
+.verdict{border-radius:var(--r); padding:12px 16px; font-weight:700}
+.verdict.v-ok{background:var(--ok-bg); color:var(--ok)}
+.verdict.v-mid{background:var(--gold-soft); color:var(--ink)}
+.verdict.v-bad{background:var(--bad-bg); color:var(--bad)}
+.checks{display:grid; gap:8px}
+.checks label{display:flex; gap:10px; align-items:flex-start; font-size:15px; cursor:pointer}
+.checks input{width:20px; height:20px; accent-color:var(--grape-soft); margin-top:2px; flex:none}
+
+/* ---------- Prova ---------- */
+.prova-grid{display:grid; gap:18px; margin-top:28px}
+@media (min-width:760px){ .prova-grid{grid-template-columns:repeat(2,1fr)} }
+.pq{padding:22px; display:grid; gap:10px; align-content:start; min-width:0}
+.pq .kind{font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-text)}
+.pq h3{font-size:21px}
+.pq p{color:var(--muted); font-size:15px}
+.pq .tip{font-size:15px; color:var(--ink); background:var(--gold-soft); border-radius:10px; padding:8px 12px}
+.template{margin-top:28px; padding:26px; display:grid; gap:14px}
+.template pre{white-space:pre-wrap; background:var(--surface-2); border-radius:var(--r); padding:16px; font:15px/1.6 ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin:0; overflow-x:auto}
+.toast{position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:var(--bg); padding:10px 18px; border-radius:999px; font-weight:700; z-index:50}
+
+.foot{border-top:2px solid var(--line); padding-block:26px; color:var(--muted); font-size:14px}
+.foot .wrap{display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between; align-items:center}
+.theme-btn{border:2px solid var(--line); background:var(--surface); border-radius:999px; padding:6px 14px; cursor:pointer; font-weight:600; font-size:14px}
+
+@keyframes pop{0%{transform:scale(.96); opacity:.4} 100%{transform:none; opacity:1}}
+.pop{animation:pop .3s ease-out}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important; animation:none!important; scroll-behavior:auto!important}
+}
+</style>
+
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <button class="brand" type="button" data-go="inicio" aria-label="The Dives, ir para o início">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="30" rx="10" fill="#E3B61F" stroke="#311758" stroke-width="3"/><path d="M12 32 L10 39 L19 32 Z" fill="#E3B61F" stroke="#311758" stroke-width="3" stroke-linejoin="round"/><text x="20" y="27" text-anchor="middle" font-family="Georgia, serif" font-weight="700" font-size="26" fill="#311758">“</text></svg>
+      <span class="brand-name">the dives<em>.</em></span>
+    </button>
+    <span class="uvv-chip" title="Universidade Vila Velha"><img src="data:image/png;base64,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" alt="UVV – Universidade Vila Velha"></span>
+    <nav class="nav" aria-label="Seções">
+      <button type="button" data-go="inicio" aria-current="page">Início</button>
+      <button type="button" data-go="resumo">Resumo</button>
+      <button type="button" data-go="quiz">Quiz</button>
+      <button type="button" data-go="cards">Flashcards</button>
+      <button type="button" data-go="treinos">Treinos</button>
+      <button type="button" data-go="prova">Como cai na prova</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= INÍCIO ================= -->
+<section class="view wrap" id="v-inicio" data-view="inicio">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Redação Publicitária · UVV · 2026/2</span>
+      <h1>Ninguém lê texto <span class="gold">chato.</span><span class="scribble">então bora estudar do jeito divertido →</span></h1>
+      <p class="lede">Resumo de todos os slides da disciplina, quiz com perguntas no estilo do professor, flashcards 3D e treinos práticos. Tudo num lugar só, pra revisar no ônibus, no intervalo ou na véspera.</p>
+      <div class="hero-actions">
+        <button class="btn primary" type="button" data-go="quiz">Começar o quiz</button>
+        <button class="btn" type="button" data-go="resumo">Ler o resumo</button>
+      </div>
+    </div>
+    <div class="billboard" aria-label="Outdoor de exemplo">
+      <div class="bb-board">
+        <div class="bb-tag"><span>Outdoor · teste dos 5 segundos</span><span id="bb-idx">01/04</span></div>
+        <p class="bb-head" id="bb-head">Seu despertador toca. Nosso café acorda você.</p>
+        <div class="bb-meta"><span class="bb-pill good" id="bb-words">7 palavras</span><span class="bb-pill" id="bb-res">Recurso: antagonismo</span></div>
+      </div>
+      <div class="bb-legs" aria-hidden="true"><span></span><span></span></div>
+      <p class="bb-note">OOH bom tem até 13 palavras. O ideal? 5 a 8.</p>
+    </div>
+  </div>
+
+  <div class="modes">
+    <button class="panel mode feature" type="button" data-go="quiz">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#311758" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.9"/><circle cx="12" cy="17.3" r=".6" fill="#311758"/></svg></span>
+      <span class="count" id="count-quiz">+70 perguntas</span>
+      <h3>Quiz</h3>
+      <p>Alternativas com correção na hora e explicação de cada resposta. Filtre por assunto.</p>
+    </button>
+    <button class="panel mode" type="button" data-go="cards">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#311758" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="6" width="14" height="14" rx="3"/><path d="M7 3h11a3 3 0 0 1 3 3v11"/></svg></span>
+      <span class="count" id="count-cards">Flashcards 3D</span>
+      <h3>Flashcards</h3>
+      <p>Pergunte a si mesmo, vire o cartão e confira. Marque o que já sabe e revise o resto.</p>
+    </button>
+    <button class="panel mode" type="button" data-go="resumo">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#311758" stroke-width="2.4" stroke-linecap="round"><path d="M5 4h10l4 4v12H5z"/><path d="M9 11h6M9 15h6"/></svg></span>
+      <span class="count">16 módulos</span>
+      <h3>Resumo</h3>
+      <p>Os slides e o guia passo a passo destrinchados, com macetes pra decorar.</p>
+    </button>
+    <button class="panel mode" type="button" data-go="treinos">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#311758" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h6"/><path d="m16 15 2 2 3-4"/></svg></span>
+      <span class="count">2 treinos práticos</span>
+      <h3>Monte a peça</h3>
+      <p>Organize um anúncio nas etapas certas (Exórdio → Peroração, AIDA).</p>
+    </button>
+    <button class="panel mode" type="button" data-go="treinos" data-anchor="lab">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#311758" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="10" rx="2"/><path d="M8 15v5M16 15v5"/></svg></span>
+      <span class="count">Ferramenta</span>
+      <h3>Laboratório OOH</h3>
+      <p>Escreva seu título de outdoor e veja se ele passa no teste dos 5 segundos.</p>
+    </button>
+    <button class="panel mode" type="button" data-go="prova">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#311758" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5z"/><path d="M7 10.5V15c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/></svg></span>
+      <span class="count">Padrão das atividades</span>
+      <h3>Como cai na prova</h3>
+      <p>Como o professor monta os desafios e um roteiro pra responder sem travar.</p>
+    </button>
+  </div>
+
+  <div class="strip">
+    <h2>O que tem no conteúdo</h2>
+    <div class="marquee">
+      <span>Clareza · Concisão · Persuasão · Criatividade · CTA</span><span>Exórdio → Narração → Convicção → Peroração</span><span>Venda direta · Institucional · Narrativo</span><span>Funções da linguagem</span><span>Apolíneo × Dionisíaco</span><span>Coesão e coerência</span><span>Mídia impressa</span><span>OOH e a regra dos 5 segundos</span><span>AIDA</span><span>FAB</span><span>Guia passo a passo</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESUMO ================= -->
+<section class="view wrap" id="v-resumo" data-view="resumo" hidden>
+  <span class="eyebrow">Resumo completo</span>
+  <h1 style="font-size:clamp(36px,6vw,60px); margin-top:8px">Tudo que tá nos slides, sem enrolação.</h1>
+  <p class="lede" style="margin-top:12px">Baseado nos slides de Reflexões iniciais, Estrutura e Recursos do texto, Texto (Apolíneo e Dionisíaco), Mídia impressa e OOH, AIDA, FAB e no Guia Passo a Passo.</p>
+
+  <div class="res-layout">
+    <nav class="toc" id="toc" aria-label="Módulos do resumo"></nav>
+    <div class="mods" id="mods">
+
+      <article class="panel mod" id="m1" data-title="O que é redação publicitária" data-topic="base">
+        <div class="mod-head"><span class="mod-num">01</span><h2>O que é redação publicitária</h2></div>
+        <div class="body">
+          <p><b>Redação publicitária é a arte de criar textos persuasivos</b> que comunicam ideias, valores e benefícios de produtos, serviços ou marcas.</p>
+          <p>A diferença para o texto jornalístico ou literário é que ela tem um <b>objetivo claro: gerar uma resposta do público</b>. Pode ser a compra de um produto, a adesão a um serviço ou a construção de uma imagem positiva da marca.</p>
+          <div class="grid2">
+            <div class="term"><b>Quem é o redator</b><p>Acima de tudo, um <b>comunicador estratégico</b>. Entende público-alvo, objetivos da campanha e características do produto para criar mensagens criativas e eficazes.</p></div>
+            <div class="term"><b>Com quem trabalha</b><p>É peça essencial no processo criativo da agência e trabalha em parceria com <b>diretores de arte, planejadores e estrategistas</b>.</p></div>
+          </div>
+          <h3 style="font-size:19px">Responsabilidades do redator</h3>
+          <ul class="clean">
+            <li>Criar textos para diferentes mídias (TV, rádio, digital, impresso).</li>
+            <li>Adaptar a linguagem ao público-alvo e ao suporte utilizado.</li>
+            <li>Desenvolver conceitos criativos que destaquem os benefícios do produto ou serviço.</li>
+            <li>Garantir que a mensagem seja clara, persuasiva e alinhada à estratégia da campanha.</li>
+          </ul>
+          <div class="note"><span class="hand">Pergunta de ouro do guia:</span><p>Antes de escrever qualquer linha: <b>“Que reação eu quero provocar em quem vai ler isso?”</b> Redigir para publicidade não é escrever bonito, é projetar uma reação.</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m2" data-title="Elementos-chave e os 4 pilares" data-topic="base">
+        <div class="mod-head"><span class="mod-num">02</span><h2>Elementos-chave do texto publicitário</h2></div>
+        <div class="body">
+          <div class="grid3">
+            <div class="term"><b>Clareza</b><p>A mensagem precisa ser compreendida rapidamente. Não pode gerar dúvida.</p></div>
+            <div class="term"><b>Concisão</b><p>Textos curtos e diretos. Dizer o máximo com o mínimo de palavras.</p></div>
+            <div class="term"><b>Persuasão</b><p>Convencer o público a agir: comprar, assinar, visitar. Tirar o leitor da inércia.</p></div>
+            <div class="term"><b>Criatividade</b><p>Ideias originais e inesperadas chamam atenção, rompem o ruído e geram engajamento.</p></div>
+            <div class="term"><b>CTA</b><p>Chamada para ação: um convite claro para o público agir. Ex.: “Compre agora”, “Experimente grátis”.</p></div>
+            <div class="term"><b>Texto + imagem</b><p>Trabalham juntos. O texto traz informações e argumentos; a imagem chama a atenção e reforça a ideia.</p></div>
+          </div>
+          <div class="note"><span class="hand">Macete: “CCPC + CTA”</span><p>Os 4 pilares de qualidade do guia são <b>Clareza, Concisão, Persuasão e Criatividade</b>. Nos slides, a CTA entra como 5º elemento-chave.</p></div>
+          <h3 style="font-size:19px">Técnicas de criatividade</h3>
+          <div class="grid2">
+            <div class="term"><b>Jogos de palavras</b><p>Trocadilhos, rimas e duplos sentidos.</p></div>
+            <div class="term"><b>Metáforas e analogias</b><p>Comparações que simplificam conceitos complexos.</p></div>
+            <div class="term"><b>Humor</b><p>Bem usado, gera identificação e viralização.</p></div>
+            <div class="term"><b>Storytelling</b><p>Contar histórias que emocionam e engajam o público.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m3" data-title="Cada canal, uma escrita" data-topic="base">
+        <div class="mod-head"><span class="mod-num">03</span><h2>Cada canal, uma escrita</h2></div>
+        <div class="body">
+          <p>O mesmo conteúdo muda de forma dependendo de onde vai ser publicado.</p>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Canal</th><th>Regra</th><th>Apelido no guia</th></tr></thead>
+            <tbody>
+              <tr><td>TV e vídeo</td><td>Texto breve e impactante, complementando as imagens em movimento.</td><td>Menos é mais</td></tr>
+              <tr><td>Rádio</td><td>Linguagem coloquial e sonora: o público não vê, só ouve. Crie cenas na imaginação.</td><td>Teatro da mente</td></tr>
+              <tr><td>Digital</td><td>Textos curtos, diretos e otimizados para SEO. O usuário está a um scroll de distância.</td><td>Rapidez e precisão</td></tr>
+              <tr><td>Impresso</td><td>Revista e outdoor: conciso e visualmente atraente, com forte apelo visual.</td><td>O domínio da estética</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m4" data-title="Estrutura do anúncio" data-topic="estrutura">
+        <div class="mod-head"><span class="mod-num">04</span><h2>A estrutura do anúncio</h2></div>
+        <div class="body">
+          <div class="term"><b>CONAR</b><p>Pela autorregulamentação publicitária, o anúncio deve ser <b>respeitoso, legal, honesto e verdadeiro</b>, ter responsabilidade social e <b>ser identificado como tal</b>. Ou seja: propaganda precisa ser percebida como propaganda.</p></div>
+          <p>São elementos comuns a um anúncio: <b>título ou chamada, imagem, produto ou serviço anunciado e assinatura</b> do anunciante (em geral com logotipo e slogan). O texto usa recursos verbais e não verbais para estimular uma ação no receptor.</p>
+          <h3 style="font-size:19px">Os 4 blocos obrigatórios (Guia, passo 1)</h3>
+          <ol class="steps">
+            <li><div><b>Título</b><p>Sua primeira (e talvez única) chance. Frase criativa de alto impacto que trabalha junto com uma imagem forte.</p></div></li>
+            <li><div><b>Corpo do texto</b><p>Desenvolve a promessa do título, aprofundando os benefícios para justificar a ação.</p></div></li>
+            <li><div><b>Chamada para ação (CTA)</b><p>O convite final e inegociável: ordem clara e direta.</p></div></li>
+            <li><div><b>Assinatura</b><p>O selo de autenticidade: logotipo da marca e, muitas vezes, o slogan.</p></div></li>
+          </ol>
+          <div class="note"><span class="hand">Dica do professor:</span><p>Um bom exercício é o da <b>observação</b>: ir a campo, conversar com as pessoas e entender por que elas escolhem um produto em vez de outro.</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m5" data-title="Estilos do corpo do texto" data-topic="estilos">
+        <div class="mod-head"><span class="mod-num">05</span><h2>Os 5 estilos do corpo do texto</h2></div>
+        <div class="body">
+          <p>O estilo muda conforme o objetivo de comunicação e as características do produto, serviço ou marca.</p>
+          <div class="grid2">
+            <div class="term"><b>Venda direta</b><p>Explica o produto de forma imediata. Objetivo, <b>racional</b>, foca atributos tangíveis. Título e imagem ligados a benefícios e fatos concretos. Ideal para compras racionais. Base: objetividade, clareza, coerência, dados confiáveis.</p></div>
+            <div class="term"><b>Institucional</b><p>Vende uma <b>ideia ou os méritos da organização</b>, não atributos de um produto. Foco em identidade de marca e reputação; busca simpatia, credibilidade e confiabilidade.</p></div>
+            <div class="term"><b>Narrativo</b><p>Conta uma história: <b>apresenta um problema e resolve</b> com o produto como “segredo” da solução. Proposta emocional, para compras em que a emoção decide.</p></div>
+            <div class="term"><b>Diálogo ou monólogo</b><p>Personagens vendem o produto <b>com as próprias palavras</b> (técnica parecida com testemunho). Apelo na relação pessoa–pessoa; o personagem costuma expressar a persona ou o cliente ideal.</p></div>
+            <div class="term" style="grid-column:1/-1"><b>Recurso literário</b><p>Jogos de palavras, humor, poesia, rimas, <b>hipérboles</b>, piadas, citações, ditos populares, chavões da moda ou falas de celebridades e personagens ligados à marca. Usa figuras de linguagem para ser mais efetivo.</p></div>
+          </div>
+          <div class="note"><span class="hand">Macete: “VINDiL”</span><p><b>V</b>enda direta, <b>I</b>nstitucional, <b>N</b>arrativo, <b>Di</b>álogo, <b>L</b>iterário.</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m6" data-title="Exórdio, narração, convicção, peroração" data-topic="formatacao">
+        <div class="mod-head"><span class="mod-num">06</span><h2>Exórdio → Narração → Convicção → Peroração</h2></div>
+        <div class="body">
+          <p>São os <b>recursos de formatação</b> do corpo do texto. No impresso, seguem essa sequência.</p>
+          <div class="flow"><span>Exórdio</span><i>→</i><span>Narração</span><i>→</i><span>Convicção</span><i>→</i><span>Peroração</span></div>
+          <div class="grid2">
+            <div class="term"><b>Exórdio</b><p>Parágrafo inicial. <b>Ponte</b> entre título, subtítulo e imagens e os argumentos de venda, numa sequência lógica. Converte o interesse pela leitura em interesse pelo produto.</p></div>
+            <div class="term"><b>Narração</b><p>Corpo principal. <b>Constrói credibilidade</b> com argumentos que justificam o título: dados, testemunhos e garantias. Desperta desejo.</p></div>
+            <div class="term"><b>Convicção (provas)</b><p>Suscita a certeza de compra e estimula ação imediata. Na web é o <b>call to action</b>. Atenção: deve <b>permear o texto todo</b>, não só o final.</p></div>
+            <div class="term"><b>Peroração</b><p>Trecho final que pede uma <b>ação concreta</b>: saiba mais, acesse, ligue. Pode ser direta (comando) ou indireta (sugestão). Traz site, telefone, QR Code.</p></div>
+          </div>
+          <div class="note"><span class="hand">Macete: “Entra, Narra, Convence, Pede”</span><p>Exórdio entra no assunto, Narração prova, Convicção convence, Peroração pede a ação.</p></div>
+        </div>
+        <div class="mod-foot"><button class="btn" type="button" data-go="treinos">Treinar montando um anúncio</button></div>
+      </article>
+
+      <article class="panel mod" id="m7" data-title="Recursos de linguagem (funções)" data-topic="linguagem">
+        <div class="mod-head"><span class="mod-num">07</span><h2>Recursos de linguagem: as funções</h2></div>
+        <div class="body">
+          <div class="grid2">
+            <div class="term"><b>Referencial</b><p>Transmite dados reais, objetivos e diretos, no sentido denotativo. Dá base e credibilidade à mensagem.</p><span class="ex">“LED 9W, equivale a 60W e dura 25 mil horas.”</span></div>
+            <div class="term"><b>Emotivo</b><p>Toca os sentimentos: nostalgia, alegria, medo, amor. Cria ligação pessoal. No guia aparece junto ao testemunho de consumidor.</p><span class="ex">“O cheiro do bolo da vó no domingo.”</span></div>
+            <div class="term"><b>Conativa ou imperativa</b><p>Não deixa margem para dúvida: comando, apelo forte, ordem. Impulsiona à ação.</p><span class="ex">“Ligue já. Garanta o seu.”</span></div>
+            <div class="term"><b>Fática</b><p>Aproximação por conversa ou diálogo, como a voz de um amigo em quem se confia.</p><span class="ex">“E aí, bora resolver isso juntos?”</span></div>
+            <div class="term"><b>Metalinguística</b><p>Uma mensagem que usa outra mensagem: citações, frases de outras pessoas, trechos de filmes, livros, provérbios.</p><span class="ex">Paródia de fala famosa de filme.</span></div>
+            <div class="term"><b>Estética ou poética</b><p>Linguagem ambígua, que atrai pela forma poética, singela ou de estética diferenciada.</p><span class="ex">Jogo de sons e imagens na frase.</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m8" data-title="Estereótipo, eufemismo, antagonismo, autoridade" data-topic="linguagem">
+        <div class="mod-head"><span class="mod-num">08</span><h2>Mais recursos: estereótipo, eufemismo, antagonismo e autoridade</h2></div>
+        <div class="body">
+          <div class="grid2">
+            <div class="term"><b>Estereótipos</b><p>Fórmulas, frases e imagens conhecidas e repetidas, mesmo quando não correspondem à realidade (ex.: carros e mecânica para homens; filhos e casa para mulheres).</p></div>
+            <div class="term"><b>Eufemismos</b><p>Palavra mais agradável para assuntos espinhosos: morte (seguro de vida), divórcio, sinistros (acidentes).</p></div>
+            <div class="term"><b>Antagonismo</b><p>Cria um <b>inimigo</b> (a fome, os insetos, o sol, a sujeira) e o produto vira o <b>herói</b> que resgata o consumidor.</p></div>
+            <div class="term"><b>Autoridade</b><p>Tom de especialista ou endosso de celebridades e profissionais, que emprestam sua credibilidade à marca.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m9" data-title="Apolíneo × Dionisíaco" data-topic="apolineo">
+        <div class="mod-head"><span class="mod-num">09</span><h2>Apolíneo × Dionisíaco</h2><p class="mod-src">Dois leitores, duas abordagens. O texto publicitário não é universal: ele se molda ao estado mental de quem o lê.</p></div>
+        <div class="body">
+          <div class="tbl-wrap"><table>
+            <thead><tr><th></th><th>Apolíneo · Modelo de Processamento</th><th>Dionisíaco · Modelo Experimental Hedonista</th></tr></thead>
+            <tbody>
+              <tr><td>Foco</td><td>Razão, lógica, argumentos diretos</td><td>Emoção, desejo, sonho, subjetividade</td></tr>
+              <tr><td>Estrutura</td><td>Discurso <b>deliberativo</b>: dados, provas, clareza, vantagens reais</td><td>Discurso <b>epidíctico</b> (demonstrativo): metáforas, símbolos, storytelling</td></tr>
+              <tr><td>Abordagem</td><td>O emissor diz claramente o que fazer ou comprar</td><td>A intenção de venda é disfarçada; o produto é coadjuvante de um estilo de vida</td></tr>
+              <tr><td>Estado do consumidor</td><td>“Namorando” a categoria (ex.: compra de carros)</td><td>Busca status, sensação e pertencimento</td></tr>
+              <tr><td>O que busca</td><td>Preço, condições, características técnicas</td><td>Projeção de desejos e experiência estética</td></tr>
+              <tr><td>Texto ideal</td><td>Altamente informativo, argumentação racional e objetiva</td><td>Sedutor, sensorial, narrativo e envolvente</td></tr>
+              <tr><td>Exemplos</td><td>Consumo de combustível, plano de saúde com tabela, taxa de juros</td><td>Perfume que vende sensualidade, refrigerante com família feliz</td></tr>
+            </tbody>
+          </table></div>
+          <div class="grid2">
+            <div class="term"><b>Apolíneo na prática</b><p>Racional e dissertativo, foco no ponto de vista. Tripé: <b>proposição, argumentação e convite à ação</b>. Título forte e criativo; subtítulo informativo; conclusão retoma a proposição (estrutura circular). Texto conciso, claro, direto.</p></div>
+            <div class="term"><b>Dionisíaco na prática</b><p>Emocional e narrativo, foco na identificação. Narrativa em 1ª pessoa (história, testemunho), em 3ª pessoa como quem conhece os personagens, ou 3ª pessoa onisciente que não interage (objetividade).</p></div>
+          </div>
+          <div class="note"><span class="hand">Apolo = cérebro. Dioniso = coração.</span><p>Apolo, deus da razão e da ordem. Dioniso, deus da festa e do prazer. Pensou em ficha técnica, é apolíneo; pensou em sensação, é dionisíaco.</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m10" data-title="Texto: coesão, coerência e sedução" data-topic="texto">
+        <div class="mod-head"><span class="mod-num">10</span><h2>O texto: tecido, coesão, coerência e sedução</h2></div>
+        <div class="body">
+          <p class="quote">“Ninguém lê texto.”<small>Uma inverdade repetida pelo mercado. As pessoas leem o que as interessa. A prova da W/Brasil: cartas de consumidores mostraram que pessoas gostam de anúncios argumentativos, com humor e emoção. <b>Elas não recusam o texto; recusam o texto chato.</b></small></p>
+          <div class="grid2">
+            <div class="term"><b>Mídia assíncrona = tempo de sedução</b><p>Na TV/rádio (30s), o tempo é ditado pelo sistema. No jornal, revista e internet, <b>o consumidor dita o ritmo</b>. O bom texto aumenta o tempo de contato e impede que ele vire a página.</p></div>
+            <div class="term"><b>Textum: o tecido</b><p>Texto vem de <b>tecido</b>: uma tessitura de ideias e palavras. “Bons textos apresentam uma textura firme, bons textos não desfiam.”</p></div>
+            <div class="term"><b>Coesão: a estrutura</b><p>A organização estrutural, a “ferragem” gramatical. Cada frase é o elo de uma corrente; garante que o leitor não abandone a leitura no meio.</p></div>
+            <div class="term"><b>Coerência: a lógica</b><p>A linha de raciocínio que dá sentido ao todo. Amarra o conteúdo do início ao fim; a promessa se sustenta na argumentação. É o encontro entre <b>atributos do produto</b> e <b>benefício percebido</b>.</p></div>
+            <div class="term"><b>Moto contínuo</b><p>O texto ideal começa e termina no mesmo tema, prendendo o leitor num ciclo argumentativo e impedindo fugas para outras linhas de pensamento.</p></div>
+            <div class="term"><b>O ponto final é a marca</b><p>A assinatura fecha o círculo e amarra o conceito. Ex.: “Todo mundo tem um bom motivo para anunciar em classificados.” responde à provocação do título.</p></div>
+          </div>
+          <h3 style="font-size:19px">A engrenagem da leitura</h3>
+          <div class="flow"><span>1. Título</span><i>→</i><span>2. Narrativa</span><i>→</i><span>3. Retomada</span></div>
+          <p>O título lança o assunto ou a provocação; o corpo conduz o raciocínio pelas justificativas técnicas; o fechamento retoma o título e entrega a solução.</p>
+          <h3 style="font-size:19px">A sedução em 4 passos</h3>
+          <ol class="steps">
+            <li><div><b>Destruir o mito</b><p>Entender que o leitor quer informação, desde que seja interessante.</p></div></li>
+            <li><div><b>Focar na mira</b><p>Adaptar o tom entre Processamento Apolíneo e Hedonismo Dionisíaco.</p></div></li>
+            <li><div><b>Tecer os fios</b><p>Costurar o texto com coesão estrutural e coerência lógica.</p></div></li>
+            <li><div><b>Fechar o círculo</b><p>Começar e terminar no mesmo tema, ancorando na assinatura.</p></div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m11" data-title="Mídia impressa" data-topic="impressa">
+        <div class="mod-head"><span class="mod-num">11</span><h2>Redação em mídia impressa</h2></div>
+        <div class="body">
+          <p>Mesmo com queda de leitores, títulos e exemplares, revista e jornal ainda têm relevância no mercado publicitário. Todos os meios tradicionais sofreram com a internet, e revistas e jornais precisaram se reinventar.</p>
+          <div class="pc">
+            <div class="pro"><h4>Vantagens</h4><ul class="clean"><li>Impacto visual e maior atenção do leitor</li><li>Credibilidade das publicações tradicionais</li><li>Segmentação geográfica e demográfica</li><li>Maior tempo de exposição que anúncios digitais</li></ul></div>
+            <div class="con"><h4>Desvantagens</h4><ul class="clean"><li>Alto custo de produção e impressão</li><li>Dificuldade de mensurar o impacto direto</li><li>Declínio do consumo de jornais e revistas</li><li>Mais tempo de produção e veiculação que o digital</li></ul></div>
+          </div>
+          <div class="grid2">
+            <div class="term"><b>Seja direto e objetivo</b><p>Frases curtas, sem informação desnecessária. Priorize a mensagem principal.</p></div>
+            <div class="term"><b>Use palavras de impacto</b><p>Verbos no imperativo (“Experimente”, “Descubra”, “Aproveite”) e palavras que despertem emoção e desejo.</p></div>
+            <div class="term"><b>Crie conexão</b><p>Converse direto com o público. Perguntas retóricas estimulam reflexão (“Quer revolucionar sua rotina?”).</p></div>
+            <div class="term"><b>Adapte ao veículo</b><p>Jornal: tom mais <b>sóbrio e direto</b>. Revista: mais <b>criativo e explorador</b>, conforme a temática.</p></div>
+          </div>
+          <p class="quote">Envolva o consumidor no processo: o que ele sente, seus hábitos, motivações, inseguranças, valores e desejos.<small>Jon Steel, citado nos slides</small></p>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m12" data-title="OOH (mídia exterior)" data-topic="ooh">
+        <div class="mod-head"><span class="mod-num">12</span><h2>Redação para OOH</h2><p class="mod-src">OOH = out of home, a mídia exterior.</p></div>
+        <div class="body">
+          <p class="quote">Se não pode ser lido em 5 segundos, está longo demais.<small>A regra de ouro do OOH</small></p>
+          <div class="grid3">
+            <div class="term"><b>Até 13 palavras</b><p>Alguns especialistas recomendam ainda menos: <b>5 a 8</b>.</p></div>
+            <div class="term"><b>2 a 3 segundos</b><p>Tempo para a mensagem ser compreendida.</p></div>
+            <div class="term"><b>3 Cs</b><p><b>Claro</b> (entendido de imediato), <b>Criativo</b> (trocadilho, rima, ritmo), <b>Conectado</b> (perto da realidade do público).</p></div>
+          </div>
+          <h3 style="font-size:19px">Formatos</h3>
+          <div class="tbl-wrap"><table>
+            <tbody>
+              <tr><td>Outdoor</td><td>O formato mais conhecido, com dimensões padrão.</td></tr>
+              <tr><td>Frontlight e backlight</td><td>Placas com iluminação frontal e traseira.</td></tr>
+              <tr><td>Busdoor e taxidoor</td><td>Anúncios em ônibus e táxis.</td></tr>
+              <tr><td>Empena</td><td>Anúncios em paredes de edifícios.</td></tr>
+              <tr><td>Painéis digitais e interativos</td><td>Tecnologia para vídeos e interações.</td></tr>
+              <tr><td>Mobiliário urbano</td><td>Bancos, abrigos de ônibus, placas de sinalização.</td></tr>
+            </tbody>
+          </table></div>
+          <h3 style="font-size:19px">Exceções e adaptações</h3>
+          <div class="grid2">
+            <div class="term"><b>Itaú, 84 palavras</b><p>“Engarrafados”: um outdoor longo pensado para quem está <b>parado no trânsito</b> e tem tempo de ler. A exceção confirma a regra: o texto respeita o contexto.</p></div>
+            <div class="term"><b>Elevadores e totens</b><p>Texto ágil e direto; falas curtas, porque a exposição é limitada.</p></div>
+            <div class="term"><b>Painéis interativos</b><p>O texto orienta como interagir: “Toque aqui para saber mais”, “Escaneie o QR Code”.</p></div>
+            <div class="term"><b>O lugar manda</b><p>Shopping: mais descontraído. Aeroporto: mais formal e informativo.</p></div>
+          </div>
+        </div>
+        <div class="mod-foot"><button class="btn" type="button" data-go="treinos" data-anchor="lab">Testar um título no Laboratório OOH</button></div>
+      </article>
+
+      <article class="panel mod" id="m13" data-title="Método AIDA" data-topic="metodos">
+        <div class="mod-head"><span class="mod-num">13</span><h2>O método AIDA</h2></div>
+        <div class="body">
+          <p>Estrutura batizada pelo acrônimo de <b>Atenção, Interesse, Desejo e Ação</b>.</p>
+          <ol class="steps">
+            <li><div><b>Atenção</b><p>Conquistada primeiro, com promessas cativantes. Muitas vezes já no título (e-mail, landing page, anúncio).</p></div></li>
+            <li><div><b>Interesse</b><p>Despertar interesse pela mensagem para que a pessoa leia até o fim. Criar identificação, traduzindo as necessidades do leitor.</p></div></li>
+            <li><div><b>Desejo</b><p>Expor os benefícios da oferta. Como o produto desperta desejo? Como entrega o que a pessoa procura?</p></div></li>
+            <li><div><b>Ação</b><p>Chamada para ação (call to action), com foco no benefício que a pessoa terá ao agir.</p></div></li>
+          </ol>
+          <div class="note"><span class="hand">Exemplo de e-mail AIDA (slides):</span><p><b>A:</b> “Fiquei sabendo que está em busca de um curso de vendas gratuito, é verdade?” · <b>I:</b> apresenta a empresa e mostra que entende as necessidades · <b>D:</b> “desenvolvemos um minicurso gratuito com tudo o que você precisa…” · <b>A:</b> “Acesse o link no banner e inscreva-se gratuitamente.”</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m14" data-title="Método FAB" data-topic="metodos">
+        <div class="mod-head"><span class="mod-num">14</span><h2>O método FAB</h2></div>
+        <div class="body">
+          <p>Iniciais de <b>Features</b> (características), <b>Advantages</b> (vantagens) e <b>Benefits</b> (benefícios). Propõe que o conteúdo foque nesses três aspectos como argumentação de vendas.</p>
+          <div class="grid3">
+            <div class="term"><b>F · Características</b><p>Detalhes do produto, os mais relevantes para a pessoa.</p><span class="ex">“Processador Octa-Core, tela de 120Hz, bateria de 5.000 mAh.”</span></div>
+            <div class="term"><b>A · Vantagens</b><p>O que o produto faz melhor. Precisa responder a necessidades, dores e dificuldades do cliente.</p><span class="ex">“Roda jogos sem engasgar e carrega o dia todo em 20 minutos.”</span></div>
+            <div class="term"><b>B · Benefícios</b><p>O que muda na vida da pessoa. Deixa claro como a oferta soluciona necessidades já citadas.</p><span class="ex">“Você nunca mais perde um registro importante.”</span></div>
+          </div>
+          <div class="note"><span class="hand">Diferença rápida:</span><p><b>F</b> = o que é. <b>A</b> = o que faz melhor. <b>B</b> = o que muda pra você. Fecha com CTA.</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m15" data-title="Guia passo a passo" data-topic="guia">
+        <div class="mod-head"><span class="mod-num">15</span><h2>Guia passo a passo da redação publicitária</h2><p class="mod-src">Escrever uma peça é como seguir uma receita: ingredientes fixos, ordem de preparo e o toque do “chef” (o redator).</p></div>
+        <div class="body">
+          <ol class="steps">
+            <li><div><b>Monte os 4 blocos</b><p>Título, corpo do texto, CTA e assinatura.</p></div></li>
+            <li><div><b>Organize o corpo em 4 etapas</b><p>Exórdio → Narração → Convicção → Peroração.</p></div></li>
+            <li><div><b>Escolha o modelo mental</b><p>Apolíneo (razão) ou Dionisíaco (emoção). Muda vocabulário, argumentos e formato.</p></div></li>
+            <li><div><b>Escolha o estilo do corpo</b><p>Venda direta, institucional, narrativo, diálogo/monólogo ou recurso literário.</p></div></li>
+            <li><div><b>Confira os 4 pilares</b><p>Clareza, concisão, persuasão e criatividade.</p></div></li>
+            <li><div><b>Adapte ao canal</b><p>TV, rádio, digital ou impresso.</p></div></li>
+            <li><div><b>Tempere com recursos de linguagem</b><p>Referencial/emotivo, conativa, fática, metalinguística, poética, estereótipos, eufemismos, antagonismo, autoridade.</p></div></li>
+          </ol>
+          <h3 style="font-size:19px">Checklist final</h3>
+          <div class="checks" id="guide-checks">
+            <label><input type="checkbox" id="gc1"> O título tem alto impacto e dialoga com a imagem?</label>
+            <label><input type="checkbox" id="gc2"> O corpo segue Exórdio → Narração → Convicção → Peroração?</label>
+            <label><input type="checkbox" id="gc3"> Ficou claro se o texto é apolíneo ou dionisíaco?</label>
+            <label><input type="checkbox" id="gc4"> O estilo escolhido é coerente com o objetivo da marca?</label>
+            <label><input type="checkbox" id="gc5"> O texto é claro, conciso, persuasivo e criativo?</label>
+            <label><input type="checkbox" id="gc6"> A linguagem foi adaptada ao canal?</label>
+            <label><input type="checkbox" id="gc7"> Existe uma CTA clara e uma assinatura de marca?</label>
+          </div>
+          <div class="note"><span class="hand">Dica final do guia:</span><p>Domine a estrutura primeiro. Só depois de conhecer bem a receita você pode quebrá-la com criatividade.</p></div>
+        </div>
+      </article>
+
+      <article class="panel mod" id="m16" data-title="Long copy e uso de IA" data-topic="guia">
+        <div class="mod-head"><span class="mod-num">16</span><h2>Long copy, “Pense pequeno” e o uso de IA</h2></div>
+        <div class="body">
+          <p>Nos slides de Texto, o professor usa o clássico anúncio de fusca “Pense pequeno” (Era de Ouro da publicidade, anos 60) para mostrar um long copy que <b>transforma uma fraqueza em virtude</b>.</p>
+          <div class="grid3">
+            <div class="term"><b>Título contraintuitivo</b><p>Curto (2 a 4 palavras), na contramão do mercado: “Pense pequeno”.</p></div>
+            <div class="term"><b>Parágrafo 1</b><p>Admite a “desvantagem” com transparência e mostra que ela elimina o excesso.</p></div>
+            <div class="term"><b>Parágrafo 2</b><p>Engenharia prática: características viram benefícios de rotina (economia, manutenção simples).</p></div>
+            <div class="term"><b>Parágrafo 3</b><p>Filtra o público: quem busca vaidade, não é pra você; quem busca paz de espírito, é a decisão madura.</p></div>
+            <div class="term"><b>Ritmo</b><p>Frases muito curtas intercaladas com médias. Linguagem simples, sem jargão nem adjetivo exagerado.</p></div>
+            <div class="term"><b>E a IA?</b><p>Desafios pedem primeiro a <b>inteligência natural</b>; depois a IA entra para julgar, comparar e gerar variações.</p></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUIZ ================= -->
+<section class="view wrap" id="v-quiz" data-view="quiz" hidden>
+  <span class="eyebrow">Quiz</span>
+  <h1 style="font-size:clamp(36px,6vw,60px); margin-top:8px">Bora ver o quanto você sabe.</h1>
+  <div class="panel quiz-shell" id="quiz"></div>
+</section>
+
+<!-- ================= FLASHCARDS ================= -->
+<section class="view wrap" id="v-cards" data-view="cards" hidden>
+  <span class="eyebrow">Flashcards</span>
+  <h1 style="font-size:clamp(36px,6vw,60px); margin-top:8px">Pergunta na frente. Resposta no verso.</h1>
+  <p class="lede" style="margin-top:12px">Leia a pergunta, responda em voz alta (ou de cabeça) e vire o cartão. Seja sincero no “Já sei”.</p>
+  <div class="fc-shell">
+    <div class="chips" id="fc-filters" role="group" aria-label="Filtrar por assunto"></div>
+    <div class="fc-stage">
+      <button class="fc" id="fc" type="button" aria-label="Virar cartão">
+        <span class="fc-inner">
+          <span class="fc-face fc-front"><span class="fc-label"><span id="fc-topic-f">Assunto</span><span>Pergunta</span></span><span class="fc-q" id="fc-q"></span><span class="fc-hint">toque pra virar ↻</span></span>
+          <span class="fc-face fc-back"><span class="fc-label"><span id="fc-topic-b">Assunto</span><span>Resposta</span></span><span class="fc-a" id="fc-a"></span><span class="fc-hint" style="color:var(--gold)">acertou? marque abaixo</span></span>
+        </span>
+      </button>
+    </div>
+    <div class="fc-controls">
+      <button class="btn ghost" type="button" id="fc-prev" aria-label="Cartão anterior">← Anterior</button>
+      <span class="fc-counter" id="fc-count">1 / 1</span>
+      <button class="btn ghost" type="button" id="fc-next" aria-label="Próximo cartão">Próximo →</button>
+    </div>
+    <div class="fc-known">
+      <button class="btn no" type="button" id="fc-again">Revisar de novo</button>
+      <button class="btn ok" type="button" id="fc-know">Já sei ✓</button>
+      <button class="btn ghost" type="button" id="fc-shuffle">Embaralhar</button>
+      <button class="btn ghost" type="button" id="fc-only">Só os que faltam</button>
+    </div>
+    <div class="fc-stats"><span>Já sei: <b id="fc-k">0</b></span><span>Revisar: <b id="fc-r">0</b></span><span>Atalhos: espaço vira, ← → navega</span></div>
+  </div>
+</section>
+
+<!-- ================= TREINOS ================= -->
+<section class="view wrap" id="v-treinos" data-view="treinos" hidden>
+  <span class="eyebrow">Treinos práticos</span>
+  <h1 style="font-size:clamp(36px,6vw,60px); margin-top:8px">Mão na massa.</h1>
+  <div class="train-grid">
+    <div class="panel train" id="build">
+      <div>
+        <h2>Monte a peça</h2>
+        <p style="color:var(--muted); margin-top:6px">Os trechos estão embaralhados. Toque neles na ordem certa para numerar cada etapa e depois confira. Marcas fictícias.</p>
+      </div>
+      <div class="chips" id="build-tabs" role="group" aria-label="Escolher anúncio"></div>
+      <div>
+        <p class="ad-brand" id="build-brand"></p>
+        <p class="ad-title" id="build-title"></p>
+      </div>
+      <div class="pieces" id="build-pieces"></div>
+      <p class="result-line" id="build-result" aria-live="polite"></p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn primary" type="button" id="build-check">Conferir</button>
+        <button class="btn ghost" type="button" id="build-reset">Recomeçar</button>
+      </div>
+    </div>
+
+    <div class="panel train" id="lab">
+      <div>
+        <h2>Laboratório OOH</h2>
+        <p style="color:var(--muted); margin-top:6px">Escreva o título do seu outdoor. A régua mede se ele passa na regra dos 5 segundos.</p>
+      </div>
+      <label for="lab-text" class="eyebrow">Seu título</label>
+      <textarea class="lab-input" id="lab-text" maxlength="400">Calor de 40 graus? A gente gela pra você.</textarea>
+      <div class="lab-stats">
+        <div class="stat"><b id="lab-w">0</b><span>palavras</span></div>
+        <div class="stat"><b id="lab-s">0s</b><span>leitura em movimento*</span></div>
+      </div>
+      <div class="meter" aria-hidden="true">
+        <div class="meter-track"><span class="meter-dot" id="lab-dot"></span></div>
+        <div class="meter-scale"><span>0</span><span>8</span><span>13</span><span>20+</span></div>
+      </div>
+      <p class="verdict" id="lab-verdict" aria-live="polite"></p>
+      <div class="checks">
+        <label><input type="checkbox" id="lab-c1"> <span><b>Claro:</b> dá pra entender de primeira, sem reler?</span></label>
+        <label><input type="checkbox" id="lab-c2"> <span><b>Criativo:</b> tem trocadilho, rima ou ritmo?</span></label>
+        <label><input type="checkbox" id="lab-c3"> <span><b>Conectado:</b> conversa com a realidade de quem passa ali?</span></label>
+        <label><input type="checkbox" id="lab-c4"> <span><b>Local:</b> o tom combina com o lugar (shopping, aeroporto, ponto de ônibus)?</span></label>
+      </div>
+      <p style="font-size:13px; color:var(--muted)">*Estimativa de 3 palavras por segundo para quem passa de carro ou a pé. É só uma referência de estudo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROVA ================= -->
+<section class="view wrap" id="v-prova" data-view="prova" hidden>
+  <span class="eyebrow">Como cai na prova</span>
+  <h1 style="font-size:clamp(36px,6vw,60px); margin-top:8px">O jeito que o professor pergunta.</h1>
+  <p class="lede" style="margin-top:12px">Analisando os desafios dos slides e a Atividade Avaliativa 01, o padrão é claro: <b>quase tudo é aplicação</b>. Ele dá um produto ou briefing e pede um texto com uma estrutura, estilo ou recurso específico. Saber a definição ajuda, mas o que pontua é usar certo.</p>
+  <div class="prova-grid" id="prova-grid"></div>
+
+  <div class="panel template">
+    <span class="eyebrow">Roteiro de resposta</span>
+    <h2 style="font-size:28px">Modelo para a atividade com briefing</h2>
+    <p style="color:var(--muted)">Mesma ordem da Atividade Avaliativa 01. Copie, cole no seu documento e preencha.</p>
+    <pre id="tpl">MARCA: ______
+
+1. ANTES DE ESCREVER
+Modelo mental: Apolíneo (razão) ou Dionisíaco (emoção)? Por quê?
+Estilo do corpo: venda direta / institucional / narrativo / diálogo / literário
+Recursos de linguagem: (ex.: trocadilho, pergunta retórica, antagonismo, fática…)
+Como fujo do clichê do briefing? (o que NÃO vou dizer e o que digo no lugar)
+
+2. TEXTO 1 · LEGENDA DE FEED
+Título (gancho):
+Exórdio (ponte entre título e argumento):
+Narração (prova, cena, dados):
+Convicção (certeza, motivo pra agir agora):
+Peroração (fechamento que retoma o título):
+CTA:
+Assinatura / hashtag de marca:
+
+3. TEXTO 2 · OOH (até 13 palavras, ideal 5 a 8)
+Título:
+Subtítulo:
+CTA:
+Descrição da imagem:</pre>
+    <div><button class="btn grape" type="button" id="tpl-copy">Copiar roteiro</button></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span><b>the dives.</b> · material de estudo de Redação Publicitária · UVV 2026/2. Feito por estudantes, para estudantes.</span>
+    <button class="theme-btn" type="button" id="theme-btn">Tema: automático</button>
+  </div>
+</footer>
+<div class="toast" id="toast" hidden></div>
+<script>
+const TOPICS = {
+  base: "Fundamentos",
+  estrutura: "Estrutura do anúncio",
+  estilos: "Estilos do corpo",
+  formatacao: "Exórdio → Peroração",
+  linguagem: "Recursos de linguagem",
+  apolineo: "Apolíneo × Dionisíaco",
+  texto: "Coesão, coerência e sedução",
+  impressa: "Mídia impressa",
+  ooh: "OOH",
+  metodos: "AIDA e FAB",
+  guia: "Guia e atividades"
+};
+
+/* [tópico, pergunta, [correta, erradas...], explicação]  — a correta vem primeiro e é embaralhada na hora */
+const QUESTIONS = [
+  ["base","O que diferencia a redação publicitária do texto jornalístico ou literário?",["Ter um objetivo claro: gerar uma resposta do público","Informar os fatos com total neutralidade","Priorizar a beleza do texto acima de tudo","Registrar acontecimentos para a posteridade"],"A redação publicitária quer uma resposta: compra, adesão a um serviço ou construção de uma imagem positiva da marca."],
+  ["base","Segundo os slides, o redator publicitário é, acima de tudo:",["Um comunicador estratégico","Um revisor gramatical","Um diretor de arte","Um comprador de mídia"],"Ele precisa entender público-alvo, objetivos da campanha e características do produto para criar mensagens criativas e eficazes."],
+  ["base","Com quais profissionais o redator trabalha em parceria dentro da agência?",["Diretores de arte, planejadores e estrategistas","Apenas com o cliente final","Somente com jornalistas","Com programadores e contadores"],"O redator é essencial no processo criativo e trabalha junto de diretores de arte, planejadores e estrategistas."],
+  ["base","“A mensagem precisa ser compreendida rapidamente pelo público.” Esse é o elemento-chave:",["Clareza","Concisão","Persuasão","Criatividade"],"Clareza = a mensagem não pode gerar dúvida e precisa ser processada na hora."],
+  ["base","“Diga o máximo com o mínimo de palavras.” Qual pilar de qualidade é esse?",["Concisão","Clareza","Criatividade","Persuasão"],"Concisão é cortar o excesso: textos curtos e diretos."],
+  ["base","“Compre agora” e “Experimente grátis” são exemplos de:",["Chamada para ação (CTA)","Assinatura","Exórdio","Slogan"],"A CTA é o convite claro para o público tomar uma atitude."],
+  ["base","Em qual canal a linguagem precisa ser coloquial e sonora, porque o público só ouve?",["Rádio","TV e vídeo","Digital","Impresso"],"No rádio não há apoio visual. O guia chama isso de “teatro da mente”."],
+  ["base","Textos curtos, diretos e otimizados para SEO são característica de qual canal?",["Digital","Rádio","Impresso","TV"],"No digital, o usuário está a um scroll de distância: rapidez e precisão."],
+  ["base","Para TV e vídeo, a regra de ouro do guia é:",["Menos é mais: texto breve e rítmico que apoia as imagens","Texto longo para explicar a cena","Linguagem técnica e formal","Repetir em texto tudo que aparece na imagem"],"O texto complementa a força das imagens em movimento."],
+  ["base","Sobre a relação entre texto e imagem, qual afirmação está correta?",["O texto traz informações e argumentos; a imagem chama a atenção e reforça a ideia","A imagem sempre substitui o texto","O texto deve repetir o que a imagem mostra","Texto e imagem funcionam de forma independente"],"Na publicidade, texto e imagem trabalham juntos para transmitir uma mensagem completa."],
+  ["base","Trocadilhos, rimas e duplos sentidos fazem parte de qual técnica de criatividade?",["Jogos de palavras","Storytelling","Metáforas e analogias","Autoridade"],"As técnicas citadas são: jogos de palavras, metáforas e analogias, humor e storytelling."],
+  ["base","“Comparações que simplificam conceitos complexos” definem:",["Metáforas e analogias","Humor","Jogos de palavras","Eufemismos"],"Metáforas e analogias aproximam o conceito difícil de algo conhecido."],
+
+  ["estrutura","Pelos princípios do CONAR citados nos slides, todo anúncio deve:",["Ser identificado como propaganda","Parecer uma notícia para ganhar credibilidade","Evitar humor","Sempre trazer preço"],"O anúncio deve ser respeitoso, legal, honesto, verdadeiro, socialmente responsável e percebido como propaganda."],
+  ["estrutura","São elementos comuns a um anúncio:",["Título, imagem, produto/serviço e assinatura","Título, rodapé, índice e bibliografia","Imagem, trilha sonora, locutor e vinheta","Briefing, orçamento, cronograma e mídia"],"Título ou chamada, imagem, produto ou serviço anunciado e assinatura (logotipo e slogan)."],
+  ["estrutura","Os 4 blocos obrigatórios de uma peça, segundo o guia, são:",["Título, corpo do texto, CTA e assinatura","Exórdio, narração, convicção e peroração","Atenção, interesse, desejo e ação","Clareza, concisão, persuasão e criatividade"],"Os 4 blocos são a estrutura geral. Exórdio, narração, convicção e peroração organizam o corpo do texto por dentro."],
+  ["estrutura","No guia, qual bloco é “o selo de autenticidade”, com logotipo e muitas vezes slogan?",["Assinatura","Título","CTA","Corpo do texto"],"A assinatura fecha a peça com a marca."],
+  ["estrutura","Qual bloco é descrito como “sua primeira (e talvez única) chance”?",["Título","Assinatura","Peroração","CTA"],"O título é a frase de alto impacto que atrai a atenção junto com uma imagem forte."],
+
+  ["estilos","Um anúncio de geladeira lista consumo em kWh, capacidade em litros e 2 anos de garantia. Qual estilo de texto?",["Venda direta","Institucional","Narrativo","Diálogo ou monólogo"],"Venda direta é objetiva e racional, focada em atributos tangíveis, dados e fatos."],
+  ["estilos","Um texto que vende os valores e a reputação de um banco, sem falar de nenhum produto, é:",["Institucional","Venda direta","Recurso literário","Narrativo"],"O institucional vende ideias e méritos da organização para construir credibilidade e simpatia."],
+  ["estilos","O churrasco quase deu errado, mas o produto salvou a tarde. Esse texto apresenta um problema e o resolve. Qual estilo?",["Narrativo","Venda direta","Institucional","Referencial"],"O narrativo conta uma história com problema e solução, com o produto como “segredo”."],
+  ["estilos","A personagem conta, com as próprias palavras, por que usa a marca. O apelo é a relação pessoa–pessoa. Estilo:",["Diálogo ou monólogo","Institucional","Venda direta","Estereótipo"],"No diálogo ou monólogo, os personagens vendem o produto com sua própria voz, parecido com um testemunho."],
+  ["estilos","Hipérboles, rimas, piadas, ditos populares e citações caracterizam o texto:",["Com recurso literário","De venda direta","Institucional","Referencial"],"O texto com recurso literário usa figuras de linguagem para ser mais efetivo."],
+  ["estilos","Qual estilo é indicado para processos de compra mais racionais?",["Venda direta","Narrativo","Diálogo","Recurso literário"],"Objetividade, clareza, coerência e dados confiáveis sustentam decisões racionais."],
+  ["estilos","No Desafio 4, o professor pede 3 textos para a mesma marca. Quais estilos?",["Venda direta, institucional e narrativo","Referencial, fático e poético","Apolíneo, dionisíaco e AIDA","Exórdio, narração e peroração"],"A ideia é perceber como o mesmo produto muda de texto conforme o estilo."],
+
+  ["formatacao","Qual parte do corpo do texto funciona como ponte entre o título e os argumentos de venda?",["Exórdio","Narração","Convicção","Peroração"],"O exórdio é o parágrafo inicial que converte o interesse pela leitura em interesse pelo produto."],
+  ["formatacao","Em qual etapa se constrói a credibilidade com dados, testemunhos e garantias?",["Narração","Exórdio","Peroração","Assinatura"],"A narração é o corpo principal e justifica o que foi prometido no título."],
+  ["formatacao","Na publicidade na web, a convicção é chamada de:",["Call to action","Headline","Lead","Briefing"],"A convicção estimula ação imediata, por isso na web vira call to action."],
+  ["formatacao","Onde a convicção de compra deve aparecer no texto?",["Deve permear o texto inteiro","Só no último parágrafo","Somente no título","Apenas na assinatura"],"Os slides alertam: não espere o leitor chegar ao fim para encontrar a chamada à ação."],
+  ["formatacao","“Acesse o site, escaneie o QR Code ou vá à loja mais próxima.” Esse trecho é típico da:",["Peroração","Narração","Exórdio","Convicção"],"A peroração é o trecho final que pede uma ação concreta e traz contato, link ou QR Code."],
+  ["formatacao","Qual é a ordem correta do corpo do texto impresso?",["Exórdio → Narração → Convicção → Peroração","Narração → Exórdio → Peroração → Convicção","Convicção → Exórdio → Narração → Peroração","Exórdio → Convicção → Peroração → Narração"],"Entra no assunto, prova, convence e pede a ação."],
+  ["formatacao","A peroração pode pedir a ação ao leitor de que forma?",["Direta (palavras de comando) ou indireta (sugestão sutil)","Só de forma direta","Só de forma indireta","Ela não pede ação, só resume"],"Ex.: “Ligue agora” (direta) ou “Que tal conhecer?” (indireta)."],
+  ["formatacao","No Desafio 3 (detergente neutro), o anúncio de revista em página inteira deveria usar:",["As quatro fases: exórdio, narração, convicção e peroração","Somente título e assinatura","O método FAB sem título","Apenas linguagem poética"],"O desafio treina a estrutura completa do corpo do texto."],
+
+  ["linguagem","“Lâmpada LED 9W: equivale a 60W e dura 25 mil horas.” Recurso predominante:",["Referencial","Emotivo","Fático","Poético"],"A função referencial transmite dados reais e objetivos, no sentido denotativo."],
+  ["linguagem","Um anúncio de farinha que lembra o cheiro do bolo da vó no domingo usa principalmente o recurso:",["Emotivo","Referencial","Conativo","Metalinguístico"],"O recurso emotivo usa afetos como nostalgia para criar ligação pessoal."],
+  ["linguagem","“Ligue já. Garanta o seu. Não fique de fora.” Recurso:",["Conativa ou imperativa","Fática","Estética","Referencial"],"Comandos diretos que não deixam margem para dúvida."],
+  ["linguagem","“E aí, tudo certo? Bora conversar sobre o seu fim de semana?” O texto fala como um amigo. Recurso:",["Fática","Referencial","Autoridade","Eufemismo"],"A função fática simula um diálogo próximo, como a voz de alguém em quem se confia."],
+  ["linguagem","Um anúncio que adapta uma fala famosa de filme ou um provérbio usa a linguagem:",["Metalinguística","Referencial","Conativa","Emotiva"],"É uma mensagem que usa outra mensagem: citações, trechos de filmes, livros."],
+  ["linguagem","Linguagem ambígua, que atrai pela forma poética ou estética diferenciada:",["Estética ou poética","Referencial","Fática","Autoridade"],"O foco está na beleza e na forma da mensagem."],
+  ["linguagem","Um seguro de vida diz “para quando você não puder estar presente” em vez de falar em morte. Recurso:",["Eufemismo","Antagonismo","Estereótipo","Referencial"],"O eufemismo suaviza temas delicados como morte, divórcio e acidentes."],
+  ["linguagem","Um repelente apresenta o mosquito como vilão e o produto como herói. Recurso:",["Antagonismo","Eufemismo","Metalinguística","Fática"],"O antagonismo cria um inimigo (fome, insetos, sol, sujeira) para o produto resgatar o consumidor."],
+  ["linguagem","Creme dental “recomendado por dentistas” usa o recurso de:",["Autoridade","Estereótipo","Fática","Poética"],"Especialistas ou celebridades emprestam credibilidade à marca."],
+  ["linguagem","Usar fórmulas e imagens repetidas, mesmo que não correspondam à realidade (carro para homem, casa para mulher), é:",["Estereótipo","Eufemismo","Antagonismo","Autoridade"],"Estereótipos são imagens pré-concebidas associadas a comportamentos sociais."],
+  ["linguagem","No Desafio 5, o outdoor da lâmpada de LED deveria usar um recurso. Qual NÃO estava na lista do desafio?",["Antagonismo","Estética ou poética","Metalinguística","Fática"],"A lista era: estética/poética, metalinguística, fática, conativa/imperativa e referencial."],
+
+  ["apolineo","O texto apolíneo tem foco em:",["Razão, lógica e argumentos diretos","Emoção, desejo e sonho","Humor e ironia","Status e pertencimento"],"Apolíneo = Modelo de Processamento do Consumidor, racional."],
+  ["apolineo","No texto dionisíaco, a intenção de venda:",["É disfarçada; o produto vira coadjuvante de um estilo de vida","É explícita, com preço e condições","Não existe","Aparece só na assinatura, em letras grandes"],"Dionisíaco = Modelo Experimental Hedonista: emoção, metáforas, símbolos e histórias."],
+  ["apolineo","O discurso deliberativo é a estrutura de qual tipo de texto?",["Apolíneo","Dionisíaco","Fático","Institucional"],"O apolíneo é deliberativo; o dionisíaco é epidíctico (demonstrativo)."],
+  ["apolineo","Um consumidor “namorando” a categoria, sintonizado em preço, condições e características técnicas, pede um texto:",["Apolíneo","Dionisíaco","Poético","Metalinguístico"],"A tabela da Matriz Psicológica liga esse estado ao Modelo de Processamento (apolíneo)."],
+  ["apolineo","Comercial de perfume que vende sensualidade e status é exemplo de texto:",["Dionisíaco","Apolíneo","Referencial","De venda direta"],"Busca por status, sensação e pertencimento é território dionisíaco."],
+  ["apolineo","Anúncio de banco detalhando taxas de juros é exemplo de texto:",["Apolíneo","Dionisíaco","Narrativo","Poético"],"Dados, provas e vantagens reais: apolíneo."],
+  ["apolineo","O tripé do texto apolíneo é:",["Proposição, argumentação e convite à ação","Problema, conflito e solução","Atenção, desejo e ação","Título, imagem e logotipo"],"Pela tabela do resumo: proposição, argumentação e convite à ação, com conclusão que retoma a proposição."],
+  ["apolineo","Qual frase descreve o “texto ideal” para o leitor dionisíaco?",["Sedutor, sensorial, narrativo e envolvente","Altamente informativo e objetivo","Curto e técnico","Com tabela de preços"],"O dionisíaco projeta desejos e experiência estética."],
+
+  ["texto","Nos slides, a frase “Ninguém lê texto” é tratada como:",["Uma inverdade: as pessoas recusam o texto chato, não o texto","Uma regra que todo redator deve seguir","Um slogan da W/Brasil","Um conselho para usar só imagens"],"A prova da W/Brasil: consumidores gostam de anúncios argumentativos, com humor e emoção."],
+  ["texto","Etimologicamente, a palavra “texto” vem de:",["Tecido (textum)","Teste","Tese","Técnica"],"O texto é uma tessitura de ideias e palavras: “bons textos não desfiam”."],
+  ["texto","Coesão é:",["A organização estrutural do texto, a “ferragem” gramatical","A linha de raciocínio que dá sentido ao todo","O uso de rimas e trocadilhos","A escolha do canal"],"Coesão faz cada frase ser o elo de uma corrente. Coerência é a lógica."],
+  ["texto","Nos slides, a coerência aparece como a interseção entre:",["Atributos do produto e benefício percebido","Título e imagem","Preço e prazo","Marca e concorrente"],"Coerência é a promessa se sustentando na argumentação."],
+  ["texto","O “moto contínuo” do texto significa que ele:",["Começa e termina no mesmo tema, num ciclo argumentativo","Nunca termina","Usa sempre o mesmo verbo","Tem movimento, como um vídeo"],"Isso prende o leitor e impede a fuga para linhas de pensamento paralelas."],
+  ["texto","Na mídia assíncrona (jornal, revista, internet):",["O consumidor dita o ritmo, e o bom texto aumenta o tempo de contato","O sistema dita o tempo, como na TV","O texto precisa ter exatos 30 segundos","Não há espaço para texto"],"Na TV/rádio quem dita o tempo é o sistema. No assíncrono, o texto precisa seduzir."],
+  ["texto","Qual é a ordem da “Sedução em 4 passos”?",["Destruir o mito → Focar na mira → Tecer os fios → Fechar o círculo","Focar na mira → Destruir o mito → Fechar o círculo → Tecer os fios","Tecer os fios → Destruir o mito → Focar na mira → Fechar o círculo","Fechar o círculo → Tecer os fios → Focar na mira → Destruir o mito"],"Entender o leitor, escolher o tom, costurar coesão e coerência, e terminar onde começou."],
+  ["texto","“O ponto final é a marca” quer dizer que:",["A assinatura fecha o círculo e amarra o conceito proposto no título","O texto deve acabar com um ponto final grande","A marca deve aparecer só no começo","O logotipo substitui o texto"],"Ex.: a assinatura que responde à provocação do título."],
+  ["texto","Na engrenagem da leitura, as três etapas são:",["Título, narrativa e retomada","Exórdio, peroração e assinatura","Atenção, desejo e ação","Briefing, criação e mídia"],"O título lança, o corpo desenvolve e o fechamento retoma o assunto."],
+
+  ["impressa","Qual destas é uma VANTAGEM da mídia impressa?",["Credibilidade das publicações tradicionais","Alto custo de produção","Dificuldade de mensurar o impacto","Declínio do consumo de revistas"],"Vantagens: impacto visual, credibilidade, segmentação e maior tempo de exposição."],
+  ["impressa","Para anunciar em jornal, os slides recomendam um tom:",["Mais sóbrio e direto","Mais descontraído e cheio de gírias","Sempre poético","Igual ao do rádio"],"Revistas permitem ser mais criativo e explorador, conforme a temática."],
+  ["impressa","“Experimente”, “Descubra” e “Aproveite” são exemplos de:",["Verbos no imperativo, palavras de impacto","Eufemismos","Estereótipos","Referências metalinguísticas"],"Verbos no imperativo aumentam a força persuasiva."],
+  ["impressa","Perguntas retóricas como “Quer revolucionar sua rotina?” servem para:",["Estimular reflexão e engajamento, criando conexão","Deixar o texto mais longo","Substituir a assinatura","Informar o preço"],"Faz parte de “crie uma conexão com o leitor”."],
+  ["impressa","Quem é citado nos slides sobre envolver hábitos, motivações, inseguranças e desejos do consumidor na comunicação?",["Jon Steel","David Ogilvy","Washington Olivetto","Philip Kotler"],"A citação de Jon Steel aparece nos slides de mídia impressa."],
+
+  ["ooh","Qual é a regra de ouro da redação para OOH?",["Se não pode ser lido em 5 segundos, está longo demais","Quanto mais texto, mais informação","Sempre usar 3 parágrafos","Nunca usar imagem"],"OOH é lido em movimento, então precisa ser instantâneo."],
+  ["ooh","Qual é o máximo de palavras recomendado para um texto OOH?",["13 (alguns especialistas recomendam 5 a 8)","30","50","3"],"E a mensagem deve ser compreendida em 2 a 3 segundos."],
+  ["ooh","Em quanto tempo a mensagem de OOH deve ser compreendida?",["2 a 3 segundos","10 segundos","30 segundos","1 minuto"],"Por isso a concisão é obrigatória."],
+  ["ooh","Anúncios em paredes de edifícios são chamados de:",["Empena","Busdoor","Frontlight","Mobiliário urbano"],"Empena é a lateral cega do prédio usada como mídia."],
+  ["ooh","Busdoor e taxidoor são:",["Anúncios em ônibus e táxis","Placas iluminadas","Painéis em elevadores","Anúncios em abrigos de ônibus"],"Abrigos de ônibus entram em mobiliário urbano."],
+  ["ooh","Por que o outdoor “Engarrafados”, do Itaú, com 84 palavras, é uma exceção que funcionou?",["Foi feito para quem está parado no trânsito e tem tempo de ler","Porque outdoor longo é sempre melhor","Porque era um painel interativo","Porque estava dentro de um shopping"],"O texto respeitou o contexto de quem o lia."],
+  ["ooh","Em painéis interativos, o texto deve:",["Orientar como interagir: “Toque aqui”, “Escaneie o QR Code”","Ser o mais longo possível","Evitar qualquer comando","Usar apenas números"],"O consumidor precisa saber o que fazer."],
+  ["ooh","Comparando um painel em shopping com um em aeroporto:",["Shopping mais descontraído; aeroporto mais formal e informativo","Os dois devem ser idênticos","Aeroporto mais descontraído; shopping mais formal","Nenhum dos dois deve ter texto"],"O texto se adapta ao local onde o painel está."],
+  ["ooh","Os três Cs do texto de OOH são:",["Claro, Criativo e Conectado","Curto, Caro e Colorido","Clareza, Concisão e CTA","Coeso, Coerente e Circular"],"Claro (entendido de imediato), Criativo (trocadilho, rima, ritmo) e Conectado (próximo da realidade do público)."],
+  ["ooh","Bancos, abrigos de ônibus e placas de sinalização são classificados como:",["Mobiliário urbano","Empena","Frontlight","Busdoor"],"Mobiliário urbano é a mídia espalhada no espaço público."],
+
+  ["metodos","O que significa AIDA?",["Atenção, Interesse, Desejo e Ação","Argumento, Ideia, Diálogo e Assinatura","Atenção, Imagem, Desejo e Assinatura","Análise, Interesse, Dados e Ação"],"É um modelo de etapas que guia o leitor até a ação."],
+  ["metodos","No AIDA, em qual etapa o redator cria identificação, traduzindo as necessidades do leitor?",["Interesse","Atenção","Desejo","Ação"],"Depois de conquistar a atenção, é preciso despertar o interesse para a pessoa ler até o fim."],
+  ["metodos","“Acesse o link no banner e inscreva-se gratuitamente.” corresponde a qual etapa do AIDA?",["Ação","Atenção","Interesse","Desejo"],"A ação é a chamada final, focada no benefício de agir."],
+  ["metodos","No AIDA, onde a exposição dos benefícios da oferta aparece com mais força?",["Desejo","Atenção","Interesse","Ação"],"O desejo responde: como o produto entrega exatamente o que a pessoa procura?"],
+  ["metodos","O que significa FAB?",["Features, Advantages, Benefits","Fatos, Argumentos, Benefícios","Foco, Ação, Branding","Features, Attention, Brand"],"Características, vantagens e benefícios."],
+  ["metodos","“Bateria de 5.000 mAh com carregamento de 67W” é, no FAB, um(a):",["Feature (característica)","Advantage (vantagem)","Benefit (benefício)","CTA"],"É um dado técnico do produto: o que ele é."],
+  ["metodos","“Você nunca mais vai perder um registro importante por falta de bateria” é, no FAB, um(a):",["Benefit (benefício)","Feature (característica)","Advantage (vantagem)","Assinatura"],"Benefício mostra o que muda na vida do cliente."],
+  ["metodos","“Diferente de aparelhos que travam, ele roda jogos sem engasgar” é, no FAB, um(a):",["Advantage (vantagem)","Feature (característica)","Benefit (benefício)","Exórdio"],"A vantagem mostra o que o produto faz melhor, respondendo a uma dor do cliente."],
+
+  ["guia","Antes de escrever qualquer linha, o guia manda perguntar:",["Que reação eu quero provocar em quem vai ler isso?","Qual é a fonte mais bonita?","Quantas palavras o cliente pagou?","Qual concorrente copiar?"],"Redigir para publicidade é projetar uma reação no público."],
+  ["guia","No passo 3 do guia, “escolher o modelo mental do consumidor” significa decidir entre:",["Texto apolíneo (razão) ou dionisíaco (emoção)","AIDA ou FAB","Rádio ou TV","Título ou assinatura"],"Essa escolha muda vocabulário, argumentos e formato."],
+  ["guia","Na Atividade Avaliativa 01, o briefing do iFood pedia para evitar:",["Dizer apenas que “é rápido”, “é fácil” ou “tem tudo”","Falar de comida","Usar humor","Citar o aplicativo"],"O diferencial esperado era fugir do clichê e mostrar situações reais do dia a dia."],
+  ["guia","No briefing da Natura, qual era o problema de comunicação?",["Muitas marcas usam “natural”, “sustentável” e “cuidado”; era preciso uma abordagem própria","A marca não era conhecida","O produto era caro demais","Não havia público-alvo"],"O desafio era associar beleza, natureza e identidade brasileira sem argumentos genéricos."],
+  ["guia","No briefing da Havaianas, a marca precisava se diferenciar explorando:",["Seu valor simbólico e cultural","Seu preço baixo","Sua durabilidade técnica","Seu conforto ortopédico"],"A categoria de chinelos é associada a preço, conforto e praticidade. A saída é o jeito brasileiro de viver."],
+  ["guia","Na atividade, o Texto 1 (legenda de feed) precisava ter:",["Título, corpo completo (exórdio → peroração), CTA e assinatura/hashtag","Só título e hashtag","Apenas o método FAB","Título e descrição da imagem"],"Os 4 blocos por extenso, com o corpo nas 4 etapas."],
+  ["guia","Na atividade, o Texto 2 (placa OOH de ponto de ônibus) pedia:",["Título, subtítulo, CTA e descrição da imagem","Exórdio, narração e peroração","Um texto de 84 palavras","Somente a hashtag da marca"],"No OOH, a imagem é parte da mensagem, por isso entra a descrição."],
+  ["guia","Qual é a dica final do guia?",["Domine a estrutura primeiro; só depois quebre a receita com criatividade","Ignore a estrutura desde o início","Use sempre IA para escrever","Escreva o mais longo possível"],"Conhecendo a receita, dá pra quebrá-la e ainda assim gerar uma peça de sucesso."]
+];
+
+/* [tópico, frente, verso] */
+const CARDS = [
+  ["base","O que é redação publicitária?","A arte de criar textos persuasivos que comunicam ideias, valores e benefícios de produtos, serviços ou marcas, com o objetivo de gerar uma resposta do público."],
+  ["base","Quais são os elementos-chave do texto publicitário?","Clareza, Concisão, Persuasão, Criatividade e Chamada para Ação (CTA)."],
+  ["base","Responsabilidades do redator","Criar textos para várias mídias, adaptar a linguagem ao público e ao suporte, desenvolver conceitos que destaquem benefícios e garantir mensagem clara, persuasiva e alinhada à estratégia."],
+  ["base","Como escrever para cada canal?","TV/vídeo: breve, apoia a imagem. Rádio: coloquial e sonoro (teatro da mente). Digital: curto, direto, com SEO. Impresso: conciso e visualmente atraente."],
+  ["base","4 técnicas de criatividade","Jogos de palavras, metáforas e analogias, humor e storytelling."],
+  ["estrutura","O que o CONAR exige do anúncio?","Ser respeitoso, legal, honesto e verdadeiro, ter responsabilidade social e ser identificado como propaganda."],
+  ["estrutura","Os 4 blocos obrigatórios da peça","Título, Corpo do texto, Chamada para ação (CTA) e Assinatura."],
+  ["estilos","Texto de venda direta","Objetivo e racional, foca atributos tangíveis com dados e fatos. Ideal para compras racionais."],
+  ["estilos","Texto institucional","Vende a ideia ou os méritos da organização, não um produto. Constrói reputação, credibilidade e simpatia."],
+  ["estilos","Texto narrativo","Conta uma história: apresenta um problema e o resolve com o produto como “segredo”. Apelo emocional."],
+  ["estilos","Texto de diálogo ou monólogo","Personagens vendem o produto com as próprias palavras, como testemunho. Apelo na relação pessoa–pessoa."],
+  ["estilos","Texto com recurso literário","Usa jogo de palavras, humor, poesia, rimas, hipérboles, citações e ditos populares."],
+  ["formatacao","Exórdio","Parágrafo inicial. Ponte entre título/imagem e os argumentos de venda; transforma interesse pela leitura em interesse pelo produto."],
+  ["formatacao","Narração","Corpo principal. Constrói credibilidade com argumentos, dados, testemunhos e garantias que sustentam o título."],
+  ["formatacao","Convicção","Gera certeza de compra e estimula ação imediata. Na web é o call to action. Deve permear o texto inteiro."],
+  ["formatacao","Peroração","Fechamento que pede ação concreta (acesse, ligue, vá à loja), de forma direta ou indireta, com contato, link ou QR Code."],
+  ["linguagem","Função referencial","Transmite dados reais, objetivos e diretos (sentido denotativo). Dá base e credibilidade."],
+  ["linguagem","Recurso emotivo","Toca sentimentos como nostalgia, alegria, medo ou amor para criar ligação pessoal com o consumidor."],
+  ["linguagem","Função conativa (imperativa)","Comando, apelo forte, ordem. Não deixa margem para dúvida e empurra para a ação."],
+  ["linguagem","Função fática","Aproxima por meio de conversa, como a voz de um amigo em quem se confia."],
+  ["linguagem","Função metalinguística","Mensagem que usa outra mensagem: citações, frases de outros, trechos de filmes ou livros, provérbios."],
+  ["linguagem","Função estética ou poética","Linguagem ambígua que atrai pela forma poética, singela ou diferenciada."],
+  ["linguagem","Estereótipos","Fórmulas e imagens repetidas, mesmo que não correspondam à realidade, para representar comportamentos."],
+  ["linguagem","Eufemismos","Palavras mais agradáveis para temas delicados: morte, divórcio, acidentes. Comum em seguros."],
+  ["linguagem","Antagonismo","Cria um inimigo (fome, insetos, sol, sujeira) e coloca o produto como herói."],
+  ["linguagem","Autoridade","Tom de especialista ou endosso de celebridades e profissionais que emprestam credibilidade."],
+  ["apolineo","Texto apolíneo","Razão e lógica. Discurso deliberativo com dados e provas. Diz claramente o que fazer. Ex.: consumo de combustível, taxa de juros."],
+  ["apolineo","Texto dionisíaco","Emoção e desejo. Discurso epidíctico com metáforas e histórias. Venda disfarçada; produto coadjuvante. Ex.: perfume, refrigerante em família."],
+  ["apolineo","Matriz psicológica: o que cada leitor busca?","Apolíneo: preço, condições e características técnicas. Dionisíaco: projeção de desejos, status, sensação e pertencimento."],
+  ["texto","“Ninguém lê texto” é verdade?","Não. As pessoas leem o que as interessa; elas recusam o texto chato (prova da W/Brasil)."],
+  ["texto","Mídia assíncrona","Jornal, revista e internet: o consumidor dita o ritmo. O bom texto aumenta o tempo de contato com a marca."],
+  ["texto","Textum","Texto vem de “tecido”. Bons textos têm textura firme e não desfiam."],
+  ["texto","Coesão × Coerência","Coesão: estrutura, a “ferragem” gramatical, frases como elos. Coerência: a lógica que une atributos do produto ao benefício percebido."],
+  ["texto","Moto contínuo do texto","O texto começa e termina no mesmo tema, num ciclo argumentativo que impede a fuga do leitor."],
+  ["texto","Engrenagem da leitura","1. Título (ponto de partida) → 2. Desenvolvimento (narrativa) → 3. Fechamento (retomada do título)."],
+  ["texto","Sedução em 4 passos","Destruir o mito → Focar na mira → Tecer os fios → Fechar o círculo."],
+  ["impressa","Vantagens e desvantagens da mídia impressa","Prós: impacto visual, credibilidade, segmentação, mais tempo de exposição. Contras: custo alto, difícil mensurar, declínio do consumo, produção mais lenta."],
+  ["impressa","Dicas de redação para impresso","Seja direto, use palavras de impacto (imperativo), crie conexão (perguntas retóricas) e adapte: jornal sóbrio, revista criativa."],
+  ["ooh","Regra de ouro do OOH","Se não pode ser lido em 5 segundos, está longo demais. Até 13 palavras (ideal 5 a 8), compreensão em 2 a 3 segundos."],
+  ["ooh","Os 3 Cs do OOH","Claro, Criativo e Conectado."],
+  ["ooh","Formatos de OOH","Outdoor, frontlight/backlight, busdoor/taxidoor, empena, painéis digitais e interativos, mobiliário urbano."],
+  ["ooh","Exceções no OOH","Outdoor longo para trânsito parado (Itaú, 84 palavras); elevadores e totens com falas curtas; painéis interativos que orientam a interação; tom conforme o local."],
+  ["metodos","AIDA","Atenção (promessa cativante), Interesse (identificação), Desejo (benefícios) e Ação (CTA)."],
+  ["metodos","FAB","Features (características), Advantages (vantagens) e Benefits (benefícios). F = o que é; A = o que faz melhor; B = o que muda pra você."],
+  ["guia","Os 7 passos do guia","1. 4 blocos · 2. corpo em 4 etapas · 3. modelo mental · 4. estilo · 5. 4 pilares · 6. canal · 7. recursos de linguagem."],
+  ["guia","Pergunta antes de escrever","“Que reação eu quero provocar em quem vai ler isso?”"]
+];
+
+/* Treino "Monte a peça" — marcas fictícias */
+const BUILDS = [
+  { key:"brisa", label:"Protetor solar", mode:["Exórdio","Narração","Convicção","Peroração"],
+    brand:"Brisa FPS 50 · marca fictícia", title:"O sol não tira folga. Sua pele também não precisa.",
+    parts:[
+      "Sabe aquela marquinha que aparece depois de dez minutos na fila do ônibus? Ela não esperou o fim de semana na praia.",
+      "Brisa FPS 50 tem textura de gel que seca em segundos, não deixa a pele branca e resiste ao suor por até 4 horas. É testado por dermatologistas e cabe no bolso da mochila.",
+      "Proteção de praia na rotina da cidade: passou, esqueceu, ficou protegido. Por que deixar para depois?",
+      "Encontre Brisa nas farmácias da Grande Vitória ou peça pelo site brisa.com.br."
+    ]},
+  { key:"rota", label:"Bike compartilhada", mode:["Exórdio","Narração","Convicção","Peroração"],
+    brand:"Rota Bikes · marca fictícia", title:"O trânsito parou. Você não precisa parar junto.",
+    parts:[
+      "Sete e quarenta, ponte lotada, buzina por todo lado. Todo dia o mesmo filme.",
+      "Com estações espalhadas pela cidade, a Rota libera uma bike pelo app em segundos. A devolução é em qualquer estação e o primeiro mês sai pela metade do preço.",
+      "Quem pedala chega no horário e ainda chega de bom humor. Hoje pode ser você.",
+      "Baixe o app Rota e faça sua primeira viagem."
+    ]},
+  { key:"serra", label:"Café (AIDA)", mode:["Atenção","Interesse","Desejo","Ação"],
+    brand:"Café Serra Alta · marca fictícia", title:"E-mail de assinatura no modelo AIDA",
+    parts:[
+      "Seu despertador toca. Nosso café acorda você.",
+      "Nossos grãos são colhidos nas montanhas capixabas e torrados na mesma semana em que chegam à sua casa.",
+      "Imagine o aroma tomando a cozinha antes de todo mundo levantar, e aquele primeiro gole que faz o dia valer.",
+      "Assine o Serra Alta hoje e receba o primeiro pacote com frete grátis."
+    ]}
+];
+
+/* Hero: exemplos de outdoor (originais) */
+const BILLBOARDS = [
+  ["Seu despertador toca. Nosso café acorda você.","jogo de palavras"],
+  ["Calor de 40 graus? A gente gela pra você.","fática + pergunta"],
+  ["Desligue a luz. Ligue a economia.","conativa + trocadilho"],
+  ["O trânsito parou. Sua vontade de pedalar, não.","antagonismo"]
+];
+
+/* Padrões de pergunta do professor */
+const PROVA = [
+  ["Criação livre","Crie 5 títulos para uma marca","Desafio 1: cinco títulos para café e cinco para tênis de corrida, sem IA.","Varie a técnica em cada título: trocadilho, pergunta, imperativo, metáfora, antagonismo."],
+  ["Estrutura obrigatória","Anúncio de revista com as 4 fases","Desafio 3: detergente neutro, página inteira, usando exórdio, narração, convicção e peroração.","Identifique cada parágrafo. A convicção também deve aparecer ao longo do texto, não só no fim."],
+  ["Mesmo produto, estilos diferentes","3 textos: venda direta, institucional e narrativo","Desafio 4: escolha uma marca e escreva os três.","Venda direta = dados. Institucional = valores, sem produto. Narrativo = problema e solução."],
+  ["Recurso imposto","Outdoor com um recurso de linguagem","Desafio 5: lâmpada de LED com estética, metalinguística, fática, conativa ou referencial.","Respeite o OOH: até 13 palavras. Deixe o recurso evidente."],
+  ["Razão × emoção","Duas legendas: apolínea e dionisíaca","Briefing de óculos de sol polarizados (UV400, armação TR90) para jovens de 18 a 25 anos.","Apolínea usa os dados técnicos. Dionisíaca vende a sensação (rolê, praia, liberdade)."],
+  ["Reescrita","Novo título / novo texto para uma peça","Slides de impresso e OOH mostram anúncios reais e pedem outro título ou outro texto de outdoor.","Mantenha a imagem e mude a abordagem. Teste o texto do outdoor em 5 segundos."],
+  ["Método","Reescreva usando AIDA ou FAB","Mesma imagem de revista e outdoor com AIDA; texto FAB para uma imagem do Zé Delivery.","AIDA: termine com ação. FAB: característica → vantagem → benefício → CTA."],
+  ["IA como parceira","Escreva, peça para a IA avaliar e compare","Desafio 2 (Dia dos Pais) e prompt de long copy estilo “Pense pequeno”.","Primeiro a inteligência natural. Depois use a IA como crítica, não como autora."],
+  ["Atividade avaliativa","Escolha 2 de 3 briefings e planeje antes de escrever","Havaianas, Natura e iFood. Defina modelo mental, estilo e recursos e explique como foge do clichê.","Releia o “problema de comunicação”: ele diz exatamente qual clichê evitar."],
+  ["Atividade avaliativa","Legenda de feed + placa OOH","Texto 1 com título, corpo nas 4 etapas, CTA e assinatura. Texto 2 com título, subtítulo, CTA e descrição da imagem.","O texto tem que bater com as diretrizes que você definiu antes. Coerência conta ponto."]
+];
+
+(function(){
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("dives:"+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("dives:"+k, JSON.stringify(v)); }catch(e){} }
+};
+const shuffle = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const countWords = t => (t.trim().match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu) || []).length;
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true, 1800); }
+
+/* ---------- Navigation ---------- */
+const VIEWS = ["inicio","resumo","quiz","cards","treinos","prova"];
+function go(view, anchor, push=true){
+  if(!VIEWS.includes(view)) view="inicio";
+  $$("[data-view]").forEach(v => v.hidden = v.dataset.view !== view);
+  $$(".nav button").forEach(b => { if(b.dataset.go===view) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  if(push){ try{ history.replaceState(null, "", "#"+view); }catch(e){} }
+  if(anchor){ const el = document.getElementById(anchor); if(el){ setTimeout(()=>el.scrollIntoView({behavior:"smooth", block:"start"}), 30); return; } }
+  window.scrollTo({top:0, behavior:"instant" in window ? "instant" : "auto"});
+  if(view==="quiz" && !quiz.state) renderSetup();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if(b){ e.preventDefault(); go(b.dataset.go, b.dataset.anchor); }
+});
+
+/* ---------- Hero billboard ---------- */
+let bbI = 0;
+function showBB(){
+  const [txt, rec] = BILLBOARDS[bbI];
+  const h=$("#bb-head"); h.style.opacity=0;
+  setTimeout(()=>{
+    h.textContent = txt; h.style.opacity=1;
+    const w = countWords(txt);
+    $("#bb-words").textContent = w + " palavras";
+    $("#bb-res").textContent = "Recurso: " + rec;
+    $("#bb-idx").textContent = String(bbI+1).padStart(2,"0")+"/"+String(BILLBOARDS.length).padStart(2,"0");
+  }, 300);
+}
+showBB();
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
+  setInterval(()=>{ bbI=(bbI+1)%BILLBOARDS.length; showBB(); }, 4200);
+}
+$("#count-quiz").textContent = QUESTIONS.length + " perguntas";
+$("#count-cards").textContent = CARDS.length + " cartões 3D";
+
+/* ---------- Resumo TOC ---------- */
+const toc = $("#toc");
+$$("#mods .mod").forEach((m,i) => {
+  const a = document.createElement("a");
+  a.href = "#"+m.id;
+  a.innerHTML = `<span class="n">${String(i+1).padStart(2,"0")}</span>${esc(m.dataset.title)}`;
+  a.addEventListener("click", e => { e.preventDefault(); m.scrollIntoView({behavior:"smooth", block:"start"}); });
+  toc.appendChild(a);
+  const t = m.dataset.topic;
+  if(t && TOPICS[t]){
+    let foot = $(".mod-foot", m);
+    if(!foot){ foot=document.createElement("div"); foot.className="mod-foot"; m.appendChild(foot); }
+    const b=document.createElement("button"); b.type="button"; b.className="btn grape";
+    b.textContent = "Quiz deste assunto";
+    b.addEventListener("click", ()=>{ go("quiz"); startQuiz([t], 10); });
+    foot.prepend(b);
+  }
+});
+// checklist do guia (lembrado só neste navegador)
+$$("#guide-checks input").forEach(cb => {
+  cb.checked = store.get("gc:"+cb.id, false);
+  cb.addEventListener("change", ()=>store.set("gc:"+cb.id, cb.checked));
+});
+
+/* ---------- QUIZ ---------- */
+const quiz = { state:null, topics:new Set(Object.keys(TOPICS)), size:10 };
+const root = $("#quiz");
+function renderSetup(){
+  quiz.state = null;
+  const best = store.get("best", null);
+  root.innerHTML = `
+    <div class="setup-group">
+      <h3>Escolha os assuntos</h3>
+      <div class="chips" id="q-topics">
+        <button type="button" class="chip" data-all aria-pressed="${quiz.topics.size===Object.keys(TOPICS).length}">Todos</button>
+        ${Object.entries(TOPICS).map(([k,v])=>`<button type="button" class="chip" data-t="${k}" aria-pressed="${quiz.topics.has(k)}">${esc(v)} <span style="opacity:.6">${QUESTIONS.filter(q=>q[0]===k).length}</span></button>`).join("")}
+      </div>
+    </div>
+    <div class="setup-group">
+      <h3>Quantas perguntas?</h3>
+      <div class="chips" id="q-size">
+        ${[10,20,30,0].map(n=>`<button type="button" class="chip" data-n="${n}" aria-pressed="${quiz.size===n}">${n||"Todas"}</button>`).join("")}
+      </div>
+    </div>
+    <div class="q-actions">
+      <span class="kbd-hint" id="q-avail"></span>
+      <button class="btn primary" type="button" id="q-start">Começar quiz →</button>
+    </div>
+    ${best ? `<p class="kbd-hint">Seu melhor resultado neste navegador: <b>${best.p}%</b> (${best.c}/${best.t}).</p>` : ""}
+  `;
+  const upd = () => {
+    const n = QUESTIONS.filter(q=>quiz.topics.has(q[0])).length;
+    $("#q-avail").textContent = n + " perguntas disponíveis nos assuntos escolhidos";
+    $("#q-start").disabled = n===0;
+  };
+  upd();
+  $("#q-topics").addEventListener("click", e=>{
+    const c=e.target.closest(".chip"); if(!c) return;
+    if(c.hasAttribute("data-all")){
+      const all = quiz.topics.size===Object.keys(TOPICS).length;
+      quiz.topics = all ? new Set() : new Set(Object.keys(TOPICS));
+    } else {
+      quiz.topics.has(c.dataset.t) ? quiz.topics.delete(c.dataset.t) : quiz.topics.add(c.dataset.t);
+    }
+    $$("#q-topics .chip").forEach(x => x.setAttribute("aria-pressed", x.hasAttribute("data-all") ? quiz.topics.size===Object.keys(TOPICS).length : quiz.topics.has(x.dataset.t)));
+    upd();
+  });
+  $("#q-size").addEventListener("click", e=>{
+    const c=e.target.closest(".chip"); if(!c) return;
+    quiz.size=+c.dataset.n;
+    $$("#q-size .chip").forEach(x=>x.setAttribute("aria-pressed", x===c));
+  });
+  $("#q-start").addEventListener("click", ()=>startQuiz([...quiz.topics], quiz.size));
+}
+function startQuiz(topics, size, fixedList){
+  quiz.topics = new Set(topics);
+  quiz.size = size;
+  let pool = fixedList || shuffle(QUESTIONS.filter(q=>topics.includes(q[0])));
+  if(size && !fixedList) pool = pool.slice(0, size);
+  const items = pool.map(q => {
+    const opts = shuffle(q[2].map((t,i)=>({t, ok:i===0})));
+    return {src:q, topic:q[0], q:q[1], opts, exp:q[3], picked:null};
+  });
+  quiz.state = {items, i:0, correct:0};
+  renderQ();
+}
+function renderQ(){
+  const s = quiz.state, it = s.items[s.i], n = s.items.length;
+  root.innerHTML = `
+    <div class="q-top"><span class="topic">${esc(TOPICS[it.topic])}</span><span>Pergunta ${s.i+1} de ${n} · ${s.correct} acerto${s.correct===1?"":"s"}</span></div>
+    <div class="bar"><i style="width:${(s.i/n)*100}%"></i></div>
+    <p class="q-text pop">${esc(it.q)}</p>
+    <div class="opts" role="group" aria-label="Alternativas">
+      ${it.opts.map((o,k)=>`<button type="button" class="opt" data-k="${k}"><span class="k">${"ABCD"[k]}</span><span>${esc(o.t)}</span></button>`).join("")}
+    </div>
+    <div id="q-fb" aria-live="polite"></div>
+    <div class="q-actions">
+      <button class="btn ghost" type="button" id="q-quit">Sair</button>
+      <span class="kbd-hint">Atalhos: teclas 1–4 ou A–D, Enter avança</span>
+      <button class="btn primary" type="button" id="q-next" hidden>${s.i+1<n ? "Próxima →" : "Ver resultado"}</button>
+    </div>`;
+  $(".opts", root).addEventListener("click", e=>{ const b=e.target.closest(".opt"); if(b) pick(+b.dataset.k); });
+  $("#q-next").addEventListener("click", next);
+  $("#q-quit").addEventListener("click", renderSetup);
+}
+function pick(k){
+  const s = quiz.state, it = s.items[s.i];
+  if(it.picked!==null) return;
+  it.picked = k;
+  const ok = it.opts[k].ok;
+  if(ok) s.correct++;
+  $$(".opt", root).forEach((b,i)=>{ b.disabled=true; if(it.opts[i].ok) b.classList.add("correct"); else if(i===k) b.classList.add("wrong"); });
+  const right = it.opts.find(o=>o.ok).t;
+  $("#q-fb").innerHTML = `<div class="feedback ${ok?"ok":"no"} pop"><b>${ok?"Acertou!":"Quase!"}</b><span>${ok?"":"Resposta certa: <b style='font-size:inherit'>"+esc(right)+"</b>. "}${esc(it.exp)}</span></div>`;
+  $(".q-top span:last-child", root).textContent = `Pergunta ${s.i+1} de ${s.items.length} · ${s.correct} acerto${s.correct===1?"":"s"}`;
+  $(".bar i", root).style.width = ((s.i+1)/s.items.length*100)+"%";
+  const nb=$("#q-next"); nb.hidden=false; nb.focus({preventScroll:true});
+}
+function next(){
+  const s = quiz.state;
+  if(s.i+1 < s.items.length){ s.i++; renderQ(); root.scrollIntoView({block:"nearest"}); }
+  else renderEnd();
+}
+function renderEnd(){
+  const s = quiz.state, n = s.items.length, p = Math.round(s.correct/n*100);
+  const best = store.get("best", null);
+  if(!best || p > best.p) store.set("best", {p, c:s.correct, t:n});
+  const missed = s.items.filter(it => !it.opts[it.picked]?.ok);
+  const msg = p===100 ? "Gabaritou. Pode ir pra prova." : p>=80 ? "Mandou muito bem. Revise os detalhes abaixo." : p>=60 ? "Tá no caminho. Bora revisar o que escapou." : "Respira. Volta no resumo e tenta de novo.";
+  root.innerHTML = `
+    <span class="eyebrow">Resultado</span>
+    <p class="score-big">${s.correct}<small>/${n}</small></p>
+    <p class="q-text" style="font-size:22px">${p}% · ${msg}</p>
+    <div class="q-actions" style="justify-content:flex-start">
+      ${missed.length ? `<button class="btn primary" type="button" id="q-redo">Refazer só as erradas (${missed.length})</button>` : ""}
+      <button class="btn" type="button" id="q-new">Novo quiz</button>
+      <button class="btn ghost" type="button" data-go="cards">Ir para os flashcards</button>
+    </div>
+    ${missed.length ? `<h3 style="font-size:20px">O que revisar</h3><div class="review">${missed.map(it=>`<div class="review-item"><b>${esc(it.q)}</b><span class="ans">✓ ${esc(it.opts.find(o=>o.ok).t)}</span><br><span style="color:var(--muted)">${esc(it.exp)}</span></div>`).join("")}</div>` : ""}
+  `;
+  $("#q-new").addEventListener("click", renderSetup);
+  const redo = $("#q-redo");
+  if(redo) redo.addEventListener("click", ()=>startQuiz([...quiz.topics], 0, shuffle(missed.map(m=>m.src))));
+}
+document.addEventListener("keydown", e=>{
+  if($("#v-quiz").hidden || !quiz.state || e.target.matches("input, textarea")) return;
+  const map = {"1":0,"2":1,"3":2,"4":3,"a":0,"b":1,"c":2,"d":3};
+  const k = map[e.key.toLowerCase()];
+  const it = quiz.state.items[quiz.state.i];
+  if(k!==undefined && it && it.picked===null && $(".opts", root)){ pick(k); e.preventDefault(); }
+  else if(e.key==="Enter" && it && it.picked!==null && $("#q-next") && document.activeElement?.id!=="q-next"){ next(); e.preventDefault(); }
+});
+
+/* ---------- FLASHCARDS ---------- */
+const fc = { filter:"all", deck:[], i:0, onlyMissing:false, known:new Set(store.get("known", [])), again:new Set(store.get("again", [])) };
+const cardId = c => CARDS.indexOf(c);
+function buildDeck(shuf){
+  let d = CARDS.filter(c => fc.filter==="all" || c[0]===fc.filter);
+  if(fc.onlyMissing) d = d.filter(c => !fc.known.has(cardId(c)));
+  fc.deck = shuf ? shuffle(d) : d;
+  fc.i = 0;
+  renderCard();
+}
+function renderCard(){
+  const card = $("#fc");
+  card.classList.remove("flipped");
+  const c = fc.deck[fc.i];
+  if(!c){
+    $("#fc-q").textContent = fc.onlyMissing ? "Você marcou todos como “Já sei”." : "Nenhum cartão aqui.";
+    $("#fc-a").textContent = "Desligue o filtro “Só os que faltam” ou escolha outro assunto.";
+    $("#fc-count").textContent = "0 / 0";
+    $("#fc-topic-f").textContent = $("#fc-topic-b").textContent = "—";
+  } else {
+    $("#fc-q").textContent = c[1];
+    $("#fc-a").textContent = c[2];
+    $("#fc-topic-f").textContent = $("#fc-topic-b").textContent = TOPICS[c[0]];
+    $("#fc-count").textContent = (fc.i+1) + " / " + fc.deck.length;
+  }
+  $("#fc-k").textContent = fc.known.size;
+  $("#fc-r").textContent = fc.again.size;
+  $("#fc-only").setAttribute("aria-pressed", fc.onlyMissing);
+  $("#fc-only").textContent = fc.onlyMissing ? "Mostrar todos" : "Só os que faltam";
+}
+function fcMove(d){ if(!fc.deck.length) return; fc.i = (fc.i + d + fc.deck.length) % fc.deck.length; renderCard(); }
+function fcMark(ok){
+  const c = fc.deck[fc.i]; if(!c) return;
+  const id = cardId(c);
+  if(ok){ fc.known.add(id); fc.again.delete(id); } else { fc.again.add(id); fc.known.delete(id); }
+  store.set("known", [...fc.known]); store.set("again", [...fc.again]);
+  if(fc.onlyMissing && ok){ fc.deck.splice(fc.i,1); if(fc.i>=fc.deck.length) fc.i=0; renderCard(); }
+  else fcMove(1);
+}
+const filt = $("#fc-filters");
+filt.innerHTML = `<button type="button" class="chip" data-f="all" aria-pressed="true">Todos (${CARDS.length})</button>` +
+  Object.entries(TOPICS).filter(([k])=>CARDS.some(c=>c[0]===k)).map(([k,v])=>`<button type="button" class="chip" data-f="${k}" aria-pressed="false">${esc(v)}</button>`).join("");
+filt.addEventListener("click", e=>{ const c=e.target.closest(".chip"); if(!c) return; fc.filter=c.dataset.f; $$(".chip",filt).forEach(x=>x.setAttribute("aria-pressed", x===c)); buildDeck(false); });
+$("#fc").addEventListener("click", ()=>$("#fc").classList.toggle("flipped"));
+$("#fc-prev").addEventListener("click", ()=>fcMove(-1));
+$("#fc-next").addEventListener("click", ()=>fcMove(1));
+$("#fc-know").addEventListener("click", ()=>fcMark(true));
+$("#fc-again").addEventListener("click", ()=>fcMark(false));
+$("#fc-shuffle").addEventListener("click", ()=>{ buildDeck(true); toast("Cartões embaralhados"); });
+$("#fc-only").addEventListener("click", ()=>{ fc.onlyMissing=!fc.onlyMissing; buildDeck(false); });
+document.addEventListener("keydown", e=>{
+  if($("#v-cards").hidden || e.target.matches("input, textarea")) return;
+  if(e.key===" "){ e.preventDefault(); $("#fc").classList.toggle("flipped"); }
+  else if(e.key==="ArrowRight") fcMove(1);
+  else if(e.key==="ArrowLeft") fcMove(-1);
+});
+// leve inclinação 3D seguindo o ponteiro
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches && matchMedia("(hover: hover)").matches){
+  const card=$("#fc"), inner=$(".fc-inner");
+  card.addEventListener("pointermove", e=>{
+    const r=card.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    inner.style.setProperty("--ry", (x*12)+"deg"); inner.style.setProperty("--rx", (-y*10)+"deg");
+  });
+  card.addEventListener("pointerleave", ()=>{ inner.style.setProperty("--ry","0deg"); inner.style.setProperty("--rx","0deg"); });
+}
+buildDeck(false);
+
+/* ---------- Monte a peça ---------- */
+const bd = { ex:BUILDS[0], order:[], shuffled:[] };
+const tabs = $("#build-tabs");
+tabs.innerHTML = BUILDS.map((b,i)=>`<button type="button" class="chip" data-i="${i}" aria-pressed="${i===0}">${esc(b.label)}</button>`).join("");
+tabs.addEventListener("click", e=>{ const c=e.target.closest(".chip"); if(!c) return; $$(".chip",tabs).forEach(x=>x.setAttribute("aria-pressed", x===c)); bd.ex=BUILDS[+c.dataset.i]; resetBuild(); });
+function resetBuild(){
+  bd.order=[];
+  let s; do { s = shuffle([0,1,2,3]); } while(s.every((v,i)=>v===i));
+  bd.shuffled = s;
+  $("#build-brand").textContent = bd.ex.brand;
+  $("#build-title").textContent = bd.ex.title;
+  $("#build-result").textContent = "Toque primeiro no trecho que vem em 1º lugar: " + bd.ex.mode[0] + ".";
+  drawBuild();
+}
+function drawBuild(checked){
+  $("#build-pieces").innerHTML = bd.shuffled.map(pi=>{
+    const pos = bd.order.indexOf(pi);
+    let cls = "piece" + (pos>=0 ? " set" : "");
+    let fix = "";
+    if(checked){ cls += pos===pi ? " right" : " miss"; if(pos!==pi) fix = `<span class="fix">Este é: ${bd.ex.mode[pi]}</span>`; }
+    return `<button type="button" class="${cls}" data-p="${pi}"><span class="slot">${pos>=0 ? (pos+1)+". "+bd.ex.mode[pos] : "?"}</span><span>${esc(bd.ex.parts[pi])}${fix}</span></button>`;
+  }).join("");
+}
+$("#build-pieces").addEventListener("click", e=>{
+  const b=e.target.closest(".piece"); if(!b) return;
+  const p=+b.dataset.p, at=bd.order.indexOf(p);
+  if(at>=0) bd.order.splice(at); else if(bd.order.length<4) bd.order.push(p);
+  const nxt = bd.ex.mode[bd.order.length];
+  $("#build-result").textContent = bd.order.length<4 ? "Agora toque no trecho de: " + nxt + "." : "Tudo numerado. Clique em Conferir.";
+  drawBuild();
+});
+$("#build-check").addEventListener("click", ()=>{
+  if(bd.order.length<4){ $("#build-result").textContent = "Numere os 4 trechos antes de conferir."; return; }
+  const hits = bd.order.filter((p,i)=>p===i).length;
+  drawBuild(true);
+  $("#build-result").textContent = hits===4 ? "Perfeito! 4 de 4 na ordem certa." : `${hits} de 4 no lugar certo. Veja as correções em vermelho.`;
+});
+$("#build-reset").addEventListener("click", resetBuild);
+resetBuild();
+
+/* ---------- Laboratório OOH ---------- */
+const lab = $("#lab-text");
+function labUpdate(){
+  const w = countWords(lab.value), secs = w/3;
+  $("#lab-w").textContent = w;
+  $("#lab-s").textContent = secs.toFixed(1).replace(".",",") + "s";
+  $("#lab-dot").style.left = Math.min(100, w/20*100) + "%";
+  const v = $("#lab-verdict");
+  if(w===0){ v.className="verdict v-mid"; v.textContent="Escreva um título para medir."; }
+  else if(w<=8){ v.className="verdict v-ok"; v.textContent="Ideal para OOH: entre 1 e 8 palavras, lido de relance."; }
+  else if(w<=13){ v.className="verdict v-mid"; v.textContent="Dentro do limite de 13 palavras. Dá pra enxugar mais?"; }
+  else { v.className="verdict v-bad"; v.textContent="Longo demais para OOH. Só funciona em exceções, como trânsito parado."; }
+}
+lab.addEventListener("input", labUpdate);
+labUpdate();
+
+/* ---------- Prova ---------- */
+$("#prova-grid").innerHTML = PROVA.map(p=>`<div class="panel pq"><span class="kind">${esc(p[0])}</span><h3>${esc(p[1])}</h3><p>${esc(p[2])}</p><p class="tip"><b>Como mandar bem:</b> ${esc(p[3])}</p></div>`).join("");
+$("#tpl-copy").addEventListener("click", ()=>{
+  const txt = $("#tpl").textContent;
+  const fallback = ()=>{ const r=document.createRange(); r.selectNodeContents($("#tpl")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Texto selecionado. Use Ctrl/Cmd + C."); };
+  try{ navigator.clipboard.writeText(txt).then(()=>toast("Roteiro copiado"), fallback); }catch(e){ fallback(); }
+});
+
+/* ---------- Tema ---------- */
+const themes = ["auto","light","dark"], labels = {auto:"automático", light:"claro", dark:"escuro"};
+let th = store.get("theme","auto");
+function applyTheme(){ if(th==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", th); $("#theme-btn").textContent = "Tema: " + labels[th]; }
+$("#theme-btn").addEventListener("click", ()=>{ th = themes[(themes.indexOf(th)+1)%3]; store.set("theme", th); applyTheme(); });
+applyTheme();
+
+/* ---------- Boot ---------- */
+const h = (location.hash||"").slice(1);
+go(VIEWS.includes(h) ? h : "inicio", null, false);
+})();
+
+</script>
+</body>
+</html>
