@@ -485,9 +485,18 @@ button,.chip,.pick,.pc,.ans,.bucket,.sent{touch-action:manipulation;-webkit-user
   .tb{width:300px}
 }
 @keyframes sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.search{display:flex;align-items:center;gap:10px;width:min(420px,100%);background:var(--surface);border-radius:999px;padding:0 18px;box-shadow:var(--shadow);color:var(--muted)}
+.search input{flex:1;border:0;background:none;padding:14px 0;font:400 17px var(--sans);color:var(--text);min-width:0}
+.search input:focus{outline:none}
+.search:focus-within{box-shadow:inset 0 0 0 2px var(--text)}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:8px;vertical-align:1px;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.picker .profiles{max-height:none}
 
 </style>
 <div id="app"></div>
+<script>window.ARENA_CFG={url:"https://njtyscradcplcongsuun.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qdHlzY3JhZGNwbGNvbmdzdXVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODE5OTIsImV4cCI6MjEwODg1Nzk5Mn0.pRKvZp_Bk71mlC0wXkJn86qQIQTKURNI4zMpGX25ves"};</script>
+
 <script>
 /* ===== Conteúdo: Textos Científicos (UVV) — 9 tópicos ===== */
 const TOPICS = [
@@ -819,11 +828,18 @@ const pad2 = n => String(n).padStart(2, "0");
 const topicName = id => (TOPICS.find(t => t.id === id) || {}).title || "";
 const bold = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
 
-/* ---------- Armazenamento (neste navegador) ---------- */
+/* ---------- Dados: online (Supabase) com reserva local ---------- */
+const CFG = window.ARENA_CFG || {};
 const KEY = "arenaTC.v2";
 let DB = { profiles: [] };
 let storageOK = true;
-function load() {
+let CLOUD = !!(CFG.url && CFG.key);
+let lastSync = 0, syncSig = "";
+const newStats = () => ({ h: 0, m: 0, g: 0, best: 0, bt: {}, bg: {} });
+const byId = id => DB.profiles.find(p => p.id === id);
+const norm = p => ({ id: p.id, name: p.name, av: p.av, st: Object.assign(newStats(), p.st || {}), created: p.created_at || p.created, salt: p.salt, hash: p.hash });
+
+function loadLocal() {
   try { localStorage.removeItem("arenaTC.v1"); } catch (e) {}
   try {
     const raw = localStorage.getItem(KEY);
@@ -831,21 +847,69 @@ function load() {
     localStorage.setItem(KEY + ".t", "1"); localStorage.removeItem(KEY + ".t");
   } catch (e) { storageOK = false; }
 }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(DB)); storageOK = true; } catch (e) { storageOK = false; } }
-const byId = id => DB.profiles.find(p => p.id === id);
-const newStats = () => ({ h: 0, m: 0, g: 0, best: 0, bt: {}, bg: {} });
+function save() { if (CLOUD) return; try { localStorage.setItem(KEY, JSON.stringify(DB)); storageOK = true; } catch (e) { storageOK = false; } }
+
+async function api(path, body) {
+  const r = await fetch(CFG.url.replace(/\/$/, "") + "/rest/v1/" + path, {
+    method: body ? "POST" : "GET",
+    headers: { apikey: CFG.key, Authorization: "Bearer " + CFG.key, "Content-Type": "application/json", Accept: "application/json" },
+    body: body ? JSON.stringify(body) : undefined, cache: "no-store"
+  });
+  const txt = await r.text(); let data = null; try { data = txt ? JSON.parse(txt) : null; } catch (e) {}
+  if (!r.ok) { const err = new Error((data && (data.message || data.hint)) || r.statusText); err.code = data && data.code; err.msg = (data && data.message) || ""; throw err; }
+  return data;
+}
+const rpc = (fn, args) => api("rpc/" + fn, args);
+
+async function pull() {
+  if (!CLOUD) return false;
+  const rows = await api("arena_ranking?select=id,name,av,st,created_at&order=created_at.asc");
+  const sig = JSON.stringify(rows); lastSync = Date.now();
+  if (sig === syncSig) return false;
+  syncSig = sig; DB.profiles = rows.map(norm); return true;
+}
 
 async function hashPin(pin, salt) {
   const data = new TextEncoder().encode(salt + ":" + pin);
-  try {
-    const buf = await crypto.subtle.digest("SHA-256", data);
-    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-  } catch (e) {
-    let h = 5381; for (const ch of salt + pin) h = ((h << 5) + h + ch.charCodeAt(0)) | 0;
-    return "x" + (h >>> 0).toString(16);
-  }
+  try { const buf = await crypto.subtle.digest("SHA-256", data); return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join(""); }
+  catch (e) { let h = 5381; for (const ch of salt + pin) h = ((h << 5) + h + ch.charCodeAt(0)) | 0; return "x" + (h >>> 0).toString(16); }
 }
 const rid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+const cloudErr = e => {
+  const m = (e && e.msg) || "";
+  if (e && e.code === "23505") return "Esse nome já está em uso. Escolha outro.";
+  if (/bloqueado/i.test(m)) return "Muitas tentativas erradas. Espere 1 minuto.";
+  if (/nome/i.test(m)) return "Use um nome de 2 a 16 caracteres.";
+  if (/sessao|sessão/i.test(m)) return "Sua sessão expirou. Entre de novo com o PIN.";
+  return "Sem conexão com o servidor. Confira a internet e tente de novo.";
+};
+let TOKEN = null;
+
+/* Operações (mesma interface online e local) */
+const Store = {
+  async create(name, av, pin) {
+    if (CLOUD) { const r = await rpc("arena_create", { p_name: name, p_av: av, p_pin: pin }); TOKEN = r.token; await pull().catch(() => {}); if (!byId(r.id)) DB.profiles.push(norm({ id: r.id, name, av, st: newStats() })); return r.id; }
+    const salt = rid(); const p = { id: rid(), name, av, salt, hash: await hashPin(pin, salt), created: Date.now(), st: newStats() };
+    DB.profiles.push(p); save(); return p.id;
+  },
+  async login(id, pin) {
+    if (CLOUD) { const t = await rpc("arena_login", { p_id: id, p_pin: pin }); if (!t) return false; TOKEN = t; return true; }
+    const p = byId(id); return (await hashPin(pin, p.salt)) === p.hash;
+  },
+  async update(id, name, av, newPin) {
+    if (CLOUD) { await rpc("arena_update", { p_id: id, p_token: TOKEN, p_name: name, p_av: av, p_new_pin: newPin || null }); const p = byId(id); if (p) { p.name = name; p.av = av; } pull().catch(() => {}); return; }
+    const p = byId(id); p.name = name; p.av = av; if (newPin) { p.salt = rid(); p.hash = await hashPin(newPin, p.salt); } save();
+  },
+  async remove(id) {
+    if (CLOUD) { await rpc("arena_delete", { p_id: id, p_token: TOKEN }); }
+    DB.profiles = DB.profiles.filter(p => p.id !== id); save();
+  },
+  async record(id, G) {
+    if (!CLOUD) return;
+    const st = await rpc("arena_record", { p_id: id, p_token: TOKEN, p_game: G.id, p_hits: G.hits, p_misses: G.misses, p_streak: G.bestStreak, p_bt: G.bt });
+    const p = byId(id); if (p && st) p.st = Object.assign(newStats(), st);
+  }
+};
 
 /* ---------- Avatares ---------- */
 const AV = {
@@ -962,6 +1026,7 @@ const posOf = id => ranked().findIndex(p => p.id === id) + 1;
 
 /* ---------- Render raiz ---------- */
 function render() {
+  if (["app","game","intro"].includes(S.view) && !me()) { S.view = "picker"; S.me = null; S.G = null; clearTimers(); }
   let html = "";
   if (S.view === "picker") html = vPicker();
   else if (S.view === "editor") html = vEditor();
@@ -972,6 +1037,7 @@ function render() {
   if (S.modal) html += vModal();
   app.innerHTML = html;
   if (S.view === "editor") bindEditor();
+  if (S.view === "picker") { const q = document.getElementById("psearch"); if (q) q.addEventListener("input", () => { S.q = q.value; document.getElementById("plist").innerHTML = pickerTiles(); }); }
   if (S.view === "intro") runIntro();
   if (S.view === "game" && S.G && !S.G.done && GM[S.G.id].after) GM[S.G.id].after(S.G);
   const f = app.querySelector("[data-autofocus]"); if (f) f.focus({ preventScroll:true });
@@ -982,20 +1048,29 @@ const logo = () => `<span class="logo" aria-label="Arena">ARENA<i></i></span>`;
 const footNote = `Projeto de estudo feito por alunos para Textos Científicos. Não é um canal oficial da UVV.`;
 
 /* ---------- Tela: perfis ---------- */
-function vPicker() {
-  const ps = DB.profiles;
+function pickerTiles() {
+  const q = (S.q || "").trim().toLowerCase();
+  let ps = DB.profiles.slice();
+  if (CLOUD) ps.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+  if (q) ps = ps.filter(p => p.name.toLowerCase().includes(q));
   const tiles = ps.map(p => `<button class="ptile" data-a="pickProfile" data-id="${p.id}">${avBox(p)}${S.manage ? `<span class="badge">${ic("pencil", 16)}</span>` : ""}<span class="nm">${esc(p.name)}</span></button>`).join("");
-  const add = ps.length < 12 && !S.manage ? `<button class="ptile" data-a="newProfile"><span class="add">${ic("plus", 30, 1.6)}</span><span class="nm muted">Novo perfil</span></button>` : "";
+  const add = (CLOUD || DB.profiles.length < 12) && !S.manage && !q ? `<button class="ptile" data-a="newProfile"><span class="add">${ic("plus", 30, 1.6)}</span><span class="nm muted">Novo perfil</span></button>` : "";
+  const none = q && !ps.length ? `<p class="muted" style="margin:0">Ninguém com esse nome. <button class="link" data-a="newProfile">Criar perfil</button></p>` : "";
+  return add + tiles + none;
+}
+function vPicker() {
+  const ps = DB.profiles, many = ps.length > 8;
   return `<div class="picker full wrap">
     <div class="topbar">${logo()}${ps.length ? `<button class="btn ghost small" data-a="toggleManage">${S.manage ? "Concluir" : "Gerenciar"}</button>` : ""}</div>
     <main>
-      ${!storageOK ? `<p class="banner">Este navegador não está salvando dados. Gere o código de backup no seu perfil antes de sair.</p>` : ""}
+      ${S.offline ? `<p class="banner">Sem conexão com o ranking online. Seus pontos ficam só neste aparelho por enquanto.</p>` : !storageOK && !CLOUD ? `<p class="banner">Este navegador não está salvando dados. Gere o código de backup no seu perfil antes de sair.</p>` : ""}
       <div>
         <h1>${S.manage ? "Gerenciar perfis" : ps.length ? "Quem vai estudar?" : "Crie seu perfil"}</h1>
-        <p class="sub">${S.manage ? "Toque em um perfil para editar ou excluir." : ps.length ? "Escolha seu perfil e digite o PIN." : "Nome, avatar e PIN. Leva 30 segundos."}</p>
+        <p class="sub">${S.manage ? "Toque em um perfil para editar ou excluir." : ps.length ? (CLOUD ? `${ps.length} ${ps.length === 1 ? "perfil" : "perfis"} na arena. Escolha o seu e digite o PIN.` : "Escolha seu perfil e digite o PIN.") : "Nome, avatar e PIN. Leva 30 segundos."}</p>
       </div>
-      <div class="profiles">${tiles}${add}</div>
-      ${!S.manage ? `<button class="link" data-a="openImport">Tenho um código de backup</button>` : ""}
+      ${many ? `<label class="search"><span class="sr">Buscar perfil</span>${ic("search", 18, 1.8)}<input id="psearch" type="search" placeholder="Buscar seu nome" autocomplete="off" value="${esc(S.q || "")}"></label>` : ""}
+      <div class="profiles" id="plist">${pickerTiles()}</div>
+      ${!S.manage && !CLOUD ? `<button class="link" data-a="openImport">Tenho um código de backup</button>` : ""}
     </main>
     <p class="foot">${footNote}</p>
   </div>`;
@@ -1058,24 +1133,24 @@ async function saveDraft() {
   const name = d.name.trim().replace(/\s+/g, " ");
   const fail = m => { err.textContent = m; };
   if (name.length < 2) return fail("Digite um nome com pelo menos 2 caracteres.");
-  if (DB.profiles.some(p => p.id !== d.id && p.name.toLowerCase() === name.toLowerCase())) return fail("Esse nome já existe neste aparelho. Escolha outro.");
+  if (DB.profiles.some(p => p.id !== d.id && p.name.toLowerCase() === name.toLowerCase())) return fail("Esse nome já está em uso. Escolha outro.");
   const wantsPin = d.mode === "new" || d.pin1 || d.pin2;
   if (wantsPin) {
     if (!/^\d{4}$/.test(d.pin1)) return fail("O PIN precisa ter 4 números.");
     if (d.pin1 !== d.pin2) return fail("Os dois PINs estão diferentes. Digite de novo.");
   }
-  if (d.mode === "new") {
-    const salt = rid();
-    const p = { id: rid(), name, av: d.av, salt, hash: await hashPin(d.pin1, salt), created: Date.now(), st: newStats() };
-    DB.profiles.push(p); save();
-    S.draft = null; go({ view:"intro", me:p.id, tab:"jogos", topic:null, introMsg:"Perfil criado." });
-  } else {
-    const p = byId(d.id); p.name = name; p.av = d.av;
-    if (wantsPin) { p.salt = rid(); p.hash = await hashPin(d.pin1, p.salt); }
-    save(); S.draft = null;
-    if (S.me === p.id) go({ view:"app", tab:"perfil" }); else go({ view:"picker", manage:false });
-    toast("Perfil salvo.");
-  }
+  const btn = document.querySelector('#pform button[type="submit"]'); if (btn) btn.disabled = true;
+  try {
+    if (d.mode === "new") {
+      const id = await Store.create(name, d.av, d.pin1);
+      S.draft = null; go({ view:"intro", me:id, tab:"jogos", topic:null, introMsg:"Perfil criado." });
+    } else {
+      await Store.update(d.id, name, d.av, wantsPin ? d.pin1 : null);
+      const mine = S.me === d.id; S.draft = null;
+      if (mine) go({ view:"app", tab:"perfil" }); else go({ view:"picker", manage:false });
+      toast("Perfil salvo.");
+    }
+  } catch (e) { if (btn) btn.disabled = false; fail(cloudErr(e)); }
 }
 
 /* ---------- PIN ---------- */
@@ -1101,7 +1176,9 @@ async function pinPress(k) {
   if (S.pin.val.length === 4) {
     S.pin.busy = true; render();
     const p = byId(S.pin.id);
-    const ok = (await hashPin(S.pin.val, p.salt)) === p.hash;
+    let ok = false;
+    try { ok = await Store.login(p.id, S.pin.val); }
+    catch (e) { S.pin.busy = false; S.pin.val = ""; S.pin.err = cloudErr(e); S.pin.shake = true; return render(); }
     S.pin.busy = false;
     if (ok) {
       if (S.pin.purpose === "manage") { S.draft = { mode:"edit", id:p.id, name:p.name, av:{ ...p.av }, pin1:"", pin2:"" }; S.pin = null; go({ view:"editor" }); }
@@ -1266,7 +1343,7 @@ function vRanking(p) {
   return `<div class="sectionhead"><h2>Ranking</h2><p>Quem mais acertou. No empate, vence a maior precisão.</p></div>
     ${r.length >= 3 ? `<section class="top3">${top}</section>` : ""}
     <section class="list">${list}</section>
-    <p class="note">O ranking reúne os perfis criados neste aparelho.</p>`;
+    <p class="note">${CLOUD ? `<span class="live"></span>Ao vivo. Atualiza sozinho a cada poucos segundos.` : "O ranking reúne os perfis criados neste aparelho."}</p>`;
 }
 function vPerfil(p) {
   const st = p.st;
@@ -1281,9 +1358,9 @@ function vPerfil(p) {
         <div><b>${st.g}</b><span>partidas</span></div><div><b>${st.best}</b><span>maior sequência</span></div></div></section>
       <section class="card"><p class="eyebrow">Acerto por tópico</p><div class="bars">${bars}</div></section>
       <section class="card"><p class="eyebrow">Recordes</p><div class="recs">${recs}</div></section>
-      <section class="card"><p class="eyebrow">Backup do perfil</p><p class="muted" style="margin:0">Com este código você recupera o perfil, com PIN e pontos, em outro navegador.</p>
+      ${CLOUD ? "" : `<section class="card"><p class="eyebrow">Backup do perfil</p><p class="muted" style="margin:0">Com este código você recupera o perfil, com PIN e pontos, em outro navegador.</p>
         <div class="code" id="bk">${esc(backupCode(p))}</div>
-        <div class="actions"><button class="btn ghost small" data-a="copyBackup">${ic("copy", 15)} Copiar código</button></div></section>
+        <div class="actions"><button class="btn ghost small" data-a="copyBackup">${ic("copy", 15)} Copiar código</button></div></section>`}
     </div></div>`;
 }
 const backupCode = p => "ATC1." + btoa(unescape(encodeURIComponent(JSON.stringify(p))));
@@ -1354,6 +1431,7 @@ function finish(G) {
   gb.plays++; gb.best = Math.max(gb.best, G.hits);
   G.record = G.hits > prev && G.hits > 0;
   save(); render();
+  Store.record(S.me, G).then(() => { if (S.view === "game") render(); }).catch(e => toast(cloudErr(e)));
 }
 function vGame() {
   const G = S.G;
@@ -1540,7 +1618,12 @@ const A = {
   randomAv() { S.draft.av = randAv(); refreshAvatar(); },
   setAv(el) { S.draft.av[el.dataset.k] = Number(el.dataset.v); refreshAvatar(); },
   askDelete() { S.modal = { type:"delete", id: S.draft.id }; render(); },
-  doDelete() { const id = S.modal.id; DB.profiles = DB.profiles.filter(p => p.id !== id); save(); S.modal = null; S.draft = null; const wasMe = S.me === id; go({ view:"picker", manage: !wasMe && DB.profiles.length > 0, me: wasMe ? null : S.me }); toast("Perfil excluído."); },
+  async doDelete() {
+    const id = S.modal.id;
+    try { await Store.remove(id); } catch (e) { toast(cloudErr(e)); return; }
+    S.modal = null; S.draft = null; const wasMe = S.me === id;
+    go({ view:"picker", manage: !wasMe && DB.profiles.length > 0, me: wasMe ? null : S.me }); toast("Perfil excluído.");
+  },
   pinKey(el) { pinPress(el.dataset.k); },
   pinDel() { pinPress("del"); },
   tab(el) { go({ tab: el.dataset.t, topic:null }); },
@@ -1588,8 +1671,23 @@ document.addEventListener("keydown", e => {
   if (G.id === "quiz" && G.ans === null) { const i = "1234".indexOf(e.key) >= 0 ? "1234".indexOf(e.key) : "abcd".indexOf(e.key.toLowerCase()); if (i >= 0 && i < 4) GM.quiz.answer(G, i); }
 });
 
-load();
-render();
+async function poll() {
+  if (!CLOUD || document.hidden || S.modal || !["picker","app"].includes(S.view)) return;
+  try {
+    if (!(await pull())) return;
+    if (S.view === "picker" && document.activeElement && document.activeElement.id === "psearch") { document.getElementById("plist").innerHTML = pickerTiles(); return; }
+    const y = window.scrollY; render(); window.scrollTo(0, y);
+  } catch (e) {}
+}
+(async () => {
+  if (CLOUD) {
+    app.innerHTML = `<div class="picker full wrap" style="align-items:center;justify-content:center"><span class="logo">ARENA<i></i></span><p class="muted">Carregando a arena…</p></div>`;
+    try { await pull(); } catch (e) { CLOUD = false; S.offline = true; loadLocal(); }
+  } else loadLocal();
+  render();
+  setInterval(poll, 4000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) poll(); });
+})();
 })();
 
 </script>
